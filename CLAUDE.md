@@ -1,51 +1,58 @@
-# Claude Code Instructions
+# CLAUDE.md
 
-This is a Claude Plugin Marketplace repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repository Structure
+## Project Overview
+
+Agent Kit is a Claude Code plugin marketplace that extends Claude's capabilities through Agent Commands, Skills, Subagents, Hooks, and MCP Server components. Plugins are organized in the `plugins/` directory and registered in `.claude-plugin/marketplace.json`.
+
+## Repository Architecture
 
 ```
 .claude-plugin/
-  marketplace.json    # Marketplace catalog (add plugins here)
-  README.md          # Marketplace configuration docs
-plugins/             # Locally-hosted plugins
-templates/basic/     # Plugin scaffolding template
+├── marketplace.json         # Plugin registry (add new plugins here)
+└── README.md
+
+plugins/
+└── {plugin-name}/
+    ├── .claude-plugin/
+    │   └── plugin.json      # Plugin metadata (name, version, description)
+    ├── .mcp.json            # MCP server configuration (optional)
+    ├── commands/            # Slash commands (optional)
+    │   └── {command}.md     # Markdown with frontmatter
+    ├── agents/              # Custom agents (optional)
+    │   └── {agent}.md       # Markdown with frontmatter
+    ├── skills/              # Agent skills (optional)
+    │   └── {skill-name}/
+    │       ├── SKILL.md     # Main skill definition (frontmatter + workflow)
+    │       ├── README.md    # Skill documentation
+    │       ├── references/  # Supporting docs, schemas, templates
+    │       └── scripts/     # Validation/automation scripts
+    ├── hooks/               # Event hooks (optional)
+    │   └── hooks.json       # Hook configuration
+    └── scripts/             # Hook and utility scripts (optional)
+        └── {script}.sh|.py|.js
 ```
 
-## Adding a New Plugin
+## Repository Development
 
-1. Create the plugin directory under `plugins/`:
-   ```
-   plugins/my-plugin/
-   ├── .claude-plugin/
-   │   └── plugin.json
-   ├── commands/        # Slash commands (optional)
-   ├── agents/          # Specialized agents (optional)
-   ├── skills/          # Agent skills (optional)
-   ├── hooks/           # Event handlers (optional)
-   └── README.md
-   ```
+### Updating marketplace.json
 
-2. Add the plugin to `.claude-plugin/marketplace.json`:
-   ```json
-   {
-     "plugins": [
-       {
-         "name": "my-plugin",
-         "description": "What it does",
-         "source": { "type": "local", "path": "plugins/my-plugin" }
-       }
-     ]
-   }
-   ```
+When modifying `.claude-plugin/marketplace.json`, reference the Marketplace Schema documentation:
+https://code.claude.com/docs/en/plugin-marketplaces#marketplace-schema
 
-## Plugin Template
+### Developing Plugins
 
-Use `templates/basic/` as a starting point for new plugins. Copy it to `plugins/` and customize.
+When developing or updating plugins, reference the Plugins documentation:
+https://code.claude.com/docs/en/plugins-reference
 
-## Validation
+## Adding New Plugins
 
-After adding a plugin, validate the JSON syntax:
-```bash
-jq . .claude-plugin/marketplace.json
-```
+1. Create plugin structure under `plugins/{plugin-name}/`
+2. Add `plugin.json` with metadata per the Plugins reference
+3. Register in `.claude-plugin/marketplace.json` per the Marketplace Schema
+
+## Key Files
+
+- `.claude-plugin/marketplace.json` - Plugin catalog, source of truth for available plugins
+- `plugins/*/.claude-plugin/plugin.json` - Individual plugin metadata

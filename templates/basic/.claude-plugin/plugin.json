@@ -1,6 +1,0 @@
-{
-  "$schema": "https://code.claude.com/schemas/plugin.json",
-  "name": "my-plugin",
-  "description": "A brief description of what this plugin does",
-  "version": "1.0.0"
-}
