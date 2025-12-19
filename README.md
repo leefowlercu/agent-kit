@@ -52,6 +52,7 @@ agent-kit/
 │   └── agent-skill-builder/
 │       ├── .claude-plugin/
 │       │   └── plugin.json # Plugin metadata
+│       ├── README.md       # Plugin documentation
 │       └── skills/
 │           └── agent-skill-builder/
 │               ├── SKILL.md           # Main skill definition
