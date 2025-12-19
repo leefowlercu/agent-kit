@@ -12,7 +12,6 @@ A collection of Claude Code plugins for enhanced AI-assisted development workflo
 - [Quick Start](#quick-start)
 - [Available Plugins](#available-plugins)
 - [Repository Structure](#repository-structure)
-- [Adding Plugins](#adding-plugins)
 - [License](#license)
 
 ## Overview
@@ -60,29 +59,6 @@ agent-kit/
 │               └── references/        # Workflow, schemas, templates
 └── LICENSE
 ```
-
-## Adding Plugins
-
-To add a plugin to this marketplace, add an entry to the `plugins` array in `.claude-plugin/marketplace.json`:
-
-```json
-{
-  "plugins": [
-    {
-      "name": "my-plugin",
-      "description": "Description of what the plugin does",
-      "version": "0.1.0",
-      "source": "./plugins/my-plugin"
-    }
-  ]
-}
-```
-
-Plugins can be sourced from:
-
-- **Local**: Plugins hosted in this repository under `plugins/`
-- **GitHub**: Plugins from GitHub repositories
-- **Git**: Plugins from any git repository
 
 ## License
 
