@@ -1,14 +1,21 @@
 {
   "$schema": "https://code.claude.com/schemas/marketplace.json",
-  "name": "leefowlercu-claude-plugins",
-  "description": "LeeFowlerCU's Claude Code Plugin Marketplace",
-  "version": "1.0.0",
+  "name": "leefowlercu-agent-kit",
+  "owner": {
+    "name": "Lee Fowler"
+  },
+  "metadata": {
+    "description": "LeeFowlerCU's Claude Code Plugin Marketplace",
+    "version": "1.0.0"
+  },
   "plugins": [
     {
       "name": "agent-skill-builder",
       "description": "Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex)",
       "version": "0.1.0",
-      "author": "Lee Fowler",
+      "author": {
+        "name": "Lee Fowler"
+      },
       "keywords": ["skills", "agents", "development", "scaffolding"],
       "category": "development",
       "license": "MIT",
