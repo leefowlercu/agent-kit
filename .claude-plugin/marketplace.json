@@ -7,10 +7,13 @@
     {
       "name": "agent-skill-builder",
       "description": "Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex)",
-      "source": {
-        "type": "local",
-        "path": "plugins/agent-skill-builder"
-      }
+      "version": "0.1.0",
+      "author": "Lee Fowler",
+      "keywords": ["skills", "agents", "development", "scaffolding"],
+      "category": "development",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/agent-skill-builder"
     }
   ]
 }
