@@ -1,6 +1,10 @@
 {
-  "$schema": "https://code.claude.com/schemas/plugin.json",
   "name": "agent-skill-builder",
+  "version": "0.1.0",
   "description": "Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex)",
-  "version": "0.1.0"
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "license": "MIT",
+  "keywords": ["skills", "agents", "development", "scaffolding"]
 }
