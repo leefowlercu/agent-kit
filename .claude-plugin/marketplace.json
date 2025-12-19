@@ -3,5 +3,14 @@
   "name": "claude-plugins",
   "description": "Personal Claude Code plugin marketplace",
   "version": "1.0.0",
-  "plugins": []
+  "plugins": [
+    {
+      "name": "agent-skill-builder",
+      "description": "Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex)",
+      "source": {
+        "type": "local",
+        "path": "plugins/agent-skill-builder"
+      }
+    }
+  ]
 }

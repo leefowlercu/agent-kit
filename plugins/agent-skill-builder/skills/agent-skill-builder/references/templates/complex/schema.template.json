@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "{{SCHEMA_TITLE}}",
+  "description": "{{SCHEMA_DESCRIPTION}}",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "{{REQUIRED_PROPERTIES}}"
+  ],
+  "properties": {
+    "{{PROPERTY_DEFINITIONS}}": {}
+  }
+}

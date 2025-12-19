@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Skill Structure",
+  "description": "Schema for validating skill structure plans created during the Planning phase",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "skillName",
+    "archetype",
+    "directoryStructure",
+    "fileManifest"
+  ],
+  "properties": {
+    "skillName": {
+      "type": "string",
+      "description": "Name of the skill",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "archetype": {
+      "type": "string",
+      "description": "Selected skill archetype",
+      "enum": ["simple", "moderate", "complex"]
+    },
+    "directoryStructure": {
+      "type": "object",
+      "description": "Directory structure for the skill",
+      "additionalProperties": false,
+      "required": ["root", "files"],
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory name for the skill"
+        },
+        "files": {
+          "type": "array",
+          "description": "List of files in the root directory",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "type"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "File path relative to skill root"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of file",
+                "enum": [
+                  "skill-definition",
+                  "documentation",
+                  "workflow-reference",
+                  "schema",
+                  "template",
+                  "script",
+                  "config"
+                ]
+              }
+            }
+          }
+        },
+        "directories": {
+          "type": "array",
+          "description": "List of directories",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "purpose"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Directory path relative to skill root"
+              },
+              "purpose": {
+                "type": "string",
+                "description": "Purpose of this directory"
+              }
+            }
+          }
+        }
+      }
+    },
+    "fileManifest": {
+      "type": "array",
+      "description": "Complete list of files to generate",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "type", "description", "generationOrder"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "File path relative to skill root"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of file",
+            "enum": [
+              "skill-definition",
+              "documentation",
+              "workflow-reference",
+              "schema",
+              "template",
+              "script",
+              "config"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief description of the file's purpose"
+          },
+          "generationOrder": {
+            "type": "integer",
+            "description": "Order in which this file should be generated",
+            "minimum": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "workflowHierarchy": {
+      "type": ["object", "null"],
+      "description": "Workflow hierarchy for moderate/complex archetypes",
+      "properties": {
+        "phases": {
+          "type": "array",
+          "description": "List of phases in the workflow",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["number", "name", "stages"],
+            "properties": {
+              "number": {
+                "type": "integer",
+                "description": "Phase number",
+                "minimum": 1
+              },
+              "name": {
+                "type": "string",
+                "description": "Phase name"
+              },
+              "stages": {
+                "type": "array",
+                "description": "Stages within this phase",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["number", "name", "objective", "steps"],
+                  "properties": {
+                    "number": {
+                      "type": "integer",
+                      "description": "Stage number",
+                      "minimum": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Stage name"
+                    },
+                    "objective": {
+                      "type": "string",
+                      "description": "Stage objective"
+                    },
+                    "steps": {
+                      "type": "array",
+                      "description": "Steps within this stage",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["number", "name", "referenceFile"],
+                        "properties": {
+                          "number": {
+                            "type": "integer",
+                            "description": "Step number",
+                            "minimum": 1
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Step name"
+                          },
+                          "referenceFile": {
+                            "type": "string",
+                            "description": "Path to the step reference file"
+                          },
+                          "outputArtifacts": {
+                            "type": "array",
+                            "description": "Artifacts produced by this step",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "validationType": {
+                            "type": "string",
+                            "description": "Type of validation for outputs"
+                          }
+                        }
+                      },
+                      "minItems": 1
+                    }
+                  }
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "artifactFlow": {
+      "type": ["array", "null"],
+      "description": "Flow of artifacts between steps",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "artifact"],
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Source step identifier"
+          },
+          "to": {
+            "type": "string",
+            "description": "Destination step identifier"
+          },
+          "artifact": {
+            "type": "string",
+            "description": "Name of the artifact being passed"
+          },
+          "validationRequired": {
+            "type": "boolean",
+            "description": "Whether schema validation is required",
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}

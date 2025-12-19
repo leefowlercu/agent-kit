@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Skill Requirements",
+  "description": "Schema for validating skill requirements gathered during the Discovery phase",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "skillName",
+    "purpose",
+    "targetUsers",
+    "triggers",
+    "exampleRequests",
+    "complexityIndicators"
+  ],
+  "properties": {
+    "skillName": {
+      "type": "string",
+      "description": "Name of the skill to be created",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Primary purpose of the skill",
+      "minLength": 1
+    },
+    "targetUsers": {
+      "type": "string",
+      "description": "Description of target users for this skill",
+      "minLength": 1
+    },
+    "triggers": {
+      "type": "array",
+      "description": "Keywords or phrases that should trigger this skill",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "exampleRequests": {
+      "type": "array",
+      "description": "Example user requests that should invoke this skill",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "complexityIndicators": {
+      "type": "object",
+      "description": "Indicators for determining skill complexity",
+      "additionalProperties": false,
+      "required": [
+        "multiStepWorkflow",
+        "validationBetweenSteps",
+        "automationScripts"
+      ],
+      "properties": {
+        "multiStepWorkflow": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "string", "enum": ["unsure"] }
+          ],
+          "description": "Whether the skill needs a multi-step workflow"
+        },
+        "validationBetweenSteps": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "string", "enum": ["unsure"] }
+          ],
+          "description": "Whether the skill needs validation between steps"
+        },
+        "automationScripts": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "string", "enum": ["unsure"] }
+          ],
+          "description": "Whether the skill needs automation scripts"
+        }
+      }
+    },
+    "scriptLanguagePreference": {
+      "type": "string",
+      "description": "Preferred language for automation scripts",
+      "enum": ["javascript", "python", "no-preference"]
+    },
+    "archetype": {
+      "type": "string",
+      "description": "Selected skill archetype (added after Step 2)",
+      "enum": ["simple", "moderate", "complex"]
+    },
+    "archetypeRationale": {
+      "type": "string",
+      "description": "Explanation for why the archetype was selected"
+    }
+  }
+}

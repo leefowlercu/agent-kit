@@ -1,0 +1,6 @@
+{
+  "$schema": "https://code.claude.com/schemas/plugin.json",
+  "name": "agent-skill-builder",
+  "description": "Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex)",
+  "version": "0.1.0"
+}
