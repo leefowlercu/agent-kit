@@ -1,7 +1,7 @@
 {
   "$schema": "https://code.claude.com/schemas/marketplace.json",
-  "name": "claude-plugins",
-  "description": "Personal Claude Code plugin marketplace",
+  "name": "leefowlercu-claude-plugins",
+  "description": "LeeFowlerCU's Claude Code Plugin Marketplace",
   "version": "1.0.0",
   "plugins": [
     {
