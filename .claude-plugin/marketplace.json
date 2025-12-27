@@ -21,6 +21,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/agent-skill-builder"
+    },
+    {
+      "name": "project-docs-reconciler",
+      "description": "Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs)",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["documentation", "readme", "claude-md", "reconciliation"],
+      "category": "documentation",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/project-docs-reconciler"
     }
   ]
 }

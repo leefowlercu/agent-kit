@@ -40,6 +40,7 @@ This Agent Kit is a marketplace of Claude Code plugins that extend Claude's capa
 | Plugin | Description | Version |
 |--------|-------------|---------|
 | [agent-skill-builder](plugins/agent-skill-builder) | Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex) | 0.1.0 |
+| [project-docs-reconciler](plugins/project-docs-reconciler) | Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs) | 0.1.0 |
 
 ## Repository Structure
 
@@ -49,15 +50,23 @@ agent-kit/
 │   ├── marketplace.json    # Plugin marketplace catalog
 │   └── README.md           # Marketplace configuration docs
 ├── plugins/
-│   └── agent-skill-builder/
+│   ├── agent-skill-builder/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json # Plugin metadata
+│   │   ├── README.md       # Plugin documentation
+│   │   └── skills/
+│   │       └── agent-skill-builder/
+│   │           ├── SKILL.md           # Main skill definition
+│   │           ├── README.md          # Skill documentation
+│   │           └── references/        # Workflow, schemas, templates
+│   └── project-docs-reconciler/
 │       ├── .claude-plugin/
 │       │   └── plugin.json # Plugin metadata
 │       ├── README.md       # Plugin documentation
-│       └── skills/
-│           └── agent-skill-builder/
-│               ├── SKILL.md           # Main skill definition
-│               ├── README.md          # Skill documentation
-│               └── references/        # Workflow, schemas, templates
+│       └── commands/
+│           ├── claude-md.md    # CLAUDE.md reconciliation
+│           ├── readme-md.md    # README.md reconciliation
+│           └── subsystem-md.md # Subsystem docs reconciliation
 └── LICENSE
 ```
 
