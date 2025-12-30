@@ -1,6 +1,6 @@
 {
   "name": "project-docs-reconciler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs)",
   "author": {
     "name": "Lee Fowler"

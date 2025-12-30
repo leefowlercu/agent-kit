@@ -19,6 +19,7 @@ When drafting or updating this documentation, you
 - **MUST** ensure that the documentation is accurate and reflects the current state of the project as understood from your analysis of the codebase.
 - **MUST** strike a balance between being comprehensive and concise, providing enough information to be useful without overwhelming the reader with unnecessary details.
 - **MUST** include actionable development commands that can be executed directly.
+- **MUST** validate that the subsystem documentation links are accurate and point to existing files.
 
 **Section Description Syntax:** `**<section-identifier>: <section-level>** { - section-title} - <section-description> { - section-example} {, section-example}...`
 
