@@ -27,7 +27,7 @@ Run the interviewer to gather detailed requirements for your specification:
 /spec-interviewer
 ```
 
-The command reads `SPEC.md` from your current directory and conducts an in-depth interview covering technical implementation, UI/UX, concerns, tradeoffs, and edge cases. After the interview, it updates `SPEC.md` with the gathered details.
+The command reads `SPEC.md` from your current directory, analyzes the codebase to understand its architecture and patterns, and then conducts an in-depth interview covering technical implementation, UI/UX, concerns, tradeoffs, and edge cases. After the interview, it updates `SPEC.md` with the gathered details.
 
 ### Specification Planner
 

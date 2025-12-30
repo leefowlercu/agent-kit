@@ -40,7 +40,7 @@ This Agent Kit is a marketplace of Claude Code plugins that extend Claude's capa
 | Plugin | Description | Version |
 |--------|-------------|---------|
 | [agent-skill-builder](plugins/agent-skill-builder) | Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex) | 0.1.0 |
-| [project-docs-reconciler](plugins/project-docs-reconciler) | Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs) | 0.1.0 |
+| [project-docs-reconciler](plugins/project-docs-reconciler) | Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs) | 0.1.1 |
 | [spec-interviewer-planner](plugins/spec-interviewer-planner) | Commands for interviewing about specifications and generating implementation plans | 0.1.0 |
 
 ## Repository Structure

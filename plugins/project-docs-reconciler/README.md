@@ -2,7 +2,7 @@
 
 Slash commands for initializing and reconciling project documentation.
 
-**Version**: 0.1.0
+**Version**: 0.1.1
 **License**: MIT
 
 ## Overview
