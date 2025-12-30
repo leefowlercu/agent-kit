@@ -25,7 +25,7 @@
     {
       "name": "project-docs-reconciler",
       "description": "Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs)",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Lee Fowler"
       },
@@ -34,6 +34,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/project-docs-reconciler"
+    },
+    {
+      "name": "spec-interviewer-planner",
+      "description": "Commands for interviewing about specifications and generating implementation plans",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["specification", "interview", "planning", "implementation"],
+      "category": "productivity",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/spec-interviewer-planner"
     }
   ]
 }

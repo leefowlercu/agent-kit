@@ -1,0 +1,8 @@
+{
+  "name": "spec-interviewer-planner",
+  "version": "0.1.0",
+  "description": "Commands for interviewing about specifications and generating implementation plans",
+  "author": { "name": "Lee Fowler" },
+  "license": "MIT",
+  "keywords": ["specification", "interview", "planning", "implementation"]
+}
