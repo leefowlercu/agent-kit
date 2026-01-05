@@ -47,6 +47,15 @@ https://code.claude.com/docs/en/plugin-marketplaces#marketplace-schema
 When developing or updating plugins, reference the Plugins documentation:
 https://code.claude.com/docs/en/plugins-reference
 
+### Updating Plugin Versions
+
+When updating an existing plugin, increment the version in all locations:
+
+1. `plugins/{plugin-name}/.claude-plugin/plugin.json`
+2. `plugins/{plugin-name}/README.md`
+3. `.claude-plugin/marketplace.json`
+4. `README.md` (project README's Available Plugins table)
+
 ### Plugin README Requirements
 
 Every plugin must have a `README.md` at its root. When creating a new plugin, create the README. When updating a plugin, update the README to reflect changes.
