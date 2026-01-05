@@ -38,7 +38,7 @@
     {
       "name": "spec-interviewer-planner",
       "description": "Commands for interviewing about specifications and generating implementation plans",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Lee Fowler"
       },

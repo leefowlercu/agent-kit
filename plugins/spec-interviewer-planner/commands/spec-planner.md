@@ -39,6 +39,7 @@ A structured, multi-phase plan that organizes implementation into logical phases
 The plan should include:
 
 - **Overview** - Brief summary of what will be implemented
+- **Table of Contents** - Markdown-formatted table of contents with links to all subsequent major sections
 - **Prerequisites** - Dependencies, setup, or preparation needed
 - **Implementation Phases** - Distinct phases with clear boundaries and objectives:
   - Phase name and objective

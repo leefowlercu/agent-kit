@@ -2,7 +2,7 @@
 
 Commands for interviewing about specifications and generating implementation plans.
 
-**Version**: 0.1.0
+**Version**: 0.1.1
 **License**: MIT
 
 ## Overview
