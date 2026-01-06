@@ -47,6 +47,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/spec-interviewer-planner"
+    },
+    {
+      "name": "op-secrets-manager",
+      "description": "Skills for interacting with 1Password through the op CLI",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["1password", "secrets", "credentials", "op", "cli"],
+      "category": "security",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/op-secrets-manager"
     }
   ]
 }

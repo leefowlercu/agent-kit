@@ -1,0 +1,10 @@
+{
+  "name": "op-secrets-manager",
+  "version": "0.1.0",
+  "description": "Skills for interacting with 1Password through the op CLI",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "license": "MIT",
+  "keywords": ["1password", "secrets", "credentials", "op", "cli"]
+}

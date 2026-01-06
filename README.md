@@ -42,6 +42,7 @@ This Agent Kit is a marketplace of Claude Code plugins that extend Claude's capa
 | [agent-skill-builder](plugins/agent-skill-builder) | Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex) | 0.1.0 |
 | [project-docs-reconciler](plugins/project-docs-reconciler) | Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs) | 0.1.1 |
 | [spec-interviewer-planner](plugins/spec-interviewer-planner) | Commands for interviewing about specifications and generating implementation plans | 0.1.1 |
+| [op-secrets-manager](plugins/op-secrets-manager) | Skills for interacting with 1Password through the op CLI | 0.1.0 |
 
 ## Repository Structure
 
@@ -68,13 +69,26 @@ agent-kit/
 │   │       ├── claude-md.md    # CLAUDE.md reconciliation
 │   │       ├── readme-md.md    # README.md reconciliation
 │   │       └── subsystem-md.md # Subsystem docs reconciliation
-│   └── spec-interviewer-planner/
+│   ├── spec-interviewer-planner/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json # Plugin metadata
+│   │   ├── README.md       # Plugin documentation
+│   │   └── commands/
+│   │       ├── spec-interviewer.md # Specification interviewer
+│   │       └── spec-planner.md     # Implementation planner
+│   └── op-secrets-manager/
 │       ├── .claude-plugin/
 │       │   └── plugin.json # Plugin metadata
 │       ├── README.md       # Plugin documentation
-│       └── commands/
-│           ├── spec-interviewer.md # Specification interviewer
-│           └── spec-planner.md     # Implementation planner
+│       └── skills/
+│           ├── op-secrets-reader/
+│           │   ├── SKILL.md           # Main skill definition
+│           │   ├── README.md          # Skill documentation
+│           │   └── references/        # Command and schema references
+│           └── op-secrets-creator/
+│               ├── SKILL.md           # Main skill definition
+│               ├── README.md          # Skill documentation
+│               └── references/        # Command and template references
 └── LICENSE
 ```
 
