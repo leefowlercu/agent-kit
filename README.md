@@ -85,10 +85,18 @@ agent-kit/
 │           │   ├── SKILL.md           # Main skill definition
 │           │   ├── README.md          # Skill documentation
 │           │   └── references/        # Command and schema references
-│           └── op-secrets-creator/
+│           ├── op-secrets-creator/
+│           │   ├── SKILL.md           # Main skill definition
+│           │   ├── README.md          # Skill documentation
+│           │   └── references/        # Command and template references
+│           ├── op-secrets-updater/
+│           │   ├── SKILL.md           # Main skill definition
+│           │   ├── README.md          # Skill documentation
+│           │   └── references/        # Command references
+│           └── op-secrets-deleter/
 │               ├── SKILL.md           # Main skill definition
 │               ├── README.md          # Skill documentation
-│               └── references/        # Command and template references
+│               └── references/        # Command references
 └── LICENSE
 ```
 
