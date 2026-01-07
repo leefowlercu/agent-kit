@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Google Tasks API Structures",
+  "description": "Schema definitions for Task and TaskList objects from Google Tasks API",
+  "definitions": {
+    "TaskList": {
+      "type": "object",
+      "description": "A task list containing tasks",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "tasks#taskList"
+        },
+        "id": {
+          "type": "string",
+          "description": "Task list identifier"
+        },
+        "etag": {
+          "type": "string",
+          "description": "ETag of the resource"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the task list"
+        },
+        "updated": {
+          "type": "string",
+          "description": "Last modification time (RFC 3339 timestamp)",
+          "format": "date-time"
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "URL pointing to this task list",
+          "format": "uri"
+        }
+      },
+      "required": ["id", "title"]
+    },
+    "Task": {
+      "type": "object",
+      "description": "A single task within a task list",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "tasks#task"
+        },
+        "id": {
+          "type": "string",
+          "description": "Task identifier"
+        },
+        "etag": {
+          "type": "string",
+          "description": "ETag of the resource"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the task"
+        },
+        "updated": {
+          "type": "string",
+          "description": "Last modification time (RFC 3339 timestamp)",
+          "format": "date-time"
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "URL pointing to this task",
+          "format": "uri"
+        },
+        "parent": {
+          "type": "string",
+          "description": "Parent task identifier (for subtasks)"
+        },
+        "position": {
+          "type": "string",
+          "description": "Position of the task among sibling tasks"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes describing the task"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the task",
+          "enum": ["needsAction", "completed"]
+        },
+        "due": {
+          "type": "string",
+          "description": "Due date of the task (RFC 3339 date)",
+          "format": "date"
+        },
+        "completed": {
+          "type": "string",
+          "description": "Completion date (RFC 3339 timestamp)",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "boolean",
+          "description": "Whether the task has been deleted"
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "Whether the task is hidden"
+        },
+        "links": {
+          "type": "array",
+          "description": "Links associated with the task",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of the link (e.g., 'email')"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the link"
+              },
+              "link": {
+                "type": "string",
+                "description": "The URL",
+                "format": "uri"
+              }
+            }
+          }
+        }
+      },
+      "required": ["id", "title", "status"]
+    },
+    "TaskListsResponse": {
+      "type": "object",
+      "description": "Response from tasklists.list API",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "tasks#taskLists"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string",
+          "description": "Token for pagination"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TaskList"
+          }
+        }
+      }
+    },
+    "TasksResponse": {
+      "type": "object",
+      "description": "Response from tasks.list API",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "tasks#tasks"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string",
+          "description": "Token for pagination"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      }
+    },
+    "EnrichedTask": {
+      "type": "object",
+      "description": "Task with additional metadata for cross-account views",
+      "allOf": [
+        { "$ref": "#/definitions/Task" },
+        {
+          "properties": {
+            "accountEmail": {
+              "type": "string",
+              "description": "Email of the account this task belongs to",
+              "format": "email"
+            },
+            "taskListId": {
+              "type": "string",
+              "description": "ID of the task list containing this task"
+            },
+            "taskListTitle": {
+              "type": "string",
+              "description": "Title of the task list containing this task"
+            }
+          },
+          "required": ["accountEmail", "taskListId", "taskListTitle"]
+        }
+      ]
+    },
+    "EnrichedTaskList": {
+      "type": "object",
+      "description": "Task list with additional metadata for cross-account views",
+      "allOf": [
+        { "$ref": "#/definitions/TaskList" },
+        {
+          "properties": {
+            "accountEmail": {
+              "type": "string",
+              "description": "Email of the account this task list belongs to",
+              "format": "email"
+            },
+            "taskCount": {
+              "type": "integer",
+              "description": "Number of tasks in this list",
+              "minimum": 0
+            }
+          },
+          "required": ["accountEmail"]
+        }
+      ]
+    }
+  }
+}

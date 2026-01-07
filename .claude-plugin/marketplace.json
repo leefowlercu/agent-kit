@@ -60,6 +60,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/op-secrets-manager"
+    },
+    {
+      "name": "gtasks-todo-manager",
+      "description": "Manages to-dos across multiple Google accounts using the Google Tasks API",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["google-tasks", "todo", "task-management", "productivity", "multi-account"],
+      "category": "productivity",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/gtasks-todo-manager"
     }
   ]
 }

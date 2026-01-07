@@ -1,0 +1,168 @@
+# First-Run Setup Workflow Step Reference
+
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Prerequisites](#prerequisites)
+- [Step Instructions](#step-instructions)
+  - [01 / Check Existing Configuration](#01--check-existing-configuration)
+  - [02 / Guide OAuth App Creation](#02--guide-oauth-app-creation)
+  - [03 / Collect OAuth Credentials](#03--collect-oauth-credentials)
+  - [04 / Run Auth Setup](#04--run-auth-setup)
+  - [05 / Verify Setup](#05--verify-setup)
+- [Troubleshooting](#troubleshooting)
+
+## Purpose
+
+This workflow step guides users through the initial setup of the gtasks-todo-manager skill, including creating a Google Cloud OAuth application and authenticating their first Google account.
+
+## Prerequisites
+
+- Node.js 18+ installed (required by Claude Code)
+- A Google account with access to Google Cloud Console
+- Web browser for OAuth authentication flow
+
+## Step Instructions
+
+### 01 / Check Existing Configuration
+
+First, check if the skill is already configured:
+
+```bash
+node scripts/cli.js auth validate
+```
+
+**If successful**: Setup is complete, skip to account management.
+
+**If error "No configuration found"**: Proceed with first-run setup.
+
+**If error "OAuth credentials not configured"**: Proceed to collect credentials.
+
+### 02 / Guide OAuth App Creation
+
+Guide the user through creating a Google Cloud OAuth application:
+
+1. **Create or Select Project**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+   - Note the project name for reference
+
+2. **Enable Google Tasks API**
+   - Navigate to **APIs & Services > Library**
+   - Search for "Google Tasks API"
+   - Click **Enable**
+
+3. **Configure OAuth Consent Screen**
+   - Navigate to **APIs & Services > OAuth consent screen**
+   - Select **External** user type (unless using Workspace)
+   - Fill in required fields:
+     - App name: "Google Tasks CLI" (or your preference)
+     - User support email: Your email
+     - Developer contact: Your email
+   - Add scope: `https://www.googleapis.com/auth/tasks`
+   - Add your email as a test user
+   - Save and continue
+
+4. **Create OAuth Credentials**
+   - Navigate to **APIs & Services > Credentials**
+   - Click **Create Credentials > OAuth client ID**
+   - Select **Desktop app** as application type
+   - Name it (e.g., "gtasks-cli")
+   - Click **Create**
+   - **Copy the Client ID and Client Secret**
+
+### 03 / Collect OAuth Credentials
+
+The user needs to provide two values from the OAuth credentials:
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| Client ID | OAuth 2.0 Client ID | `123456789-abc.apps.googleusercontent.com` |
+| Client Secret | OAuth 2.0 Client Secret | `GOCSPX-abcdefghijklmnop` |
+
+**Important**: These credentials must be kept secure. They will be stored locally in `~/.config/gtasks-todo-manager/config.json`.
+
+### 04 / Run Auth Setup
+
+Execute the setup command with the collected credentials:
+
+```bash
+cd plugins/gtasks-todo-manager/skills/gtasks-todo-manager/scripts
+npm install
+node cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET>"
+```
+
+Or run interactively:
+
+```bash
+node cli.js auth setup
+```
+
+The setup will:
+1. Save OAuth credentials to config file
+2. Open a browser window for Google authentication
+3. Wait for the OAuth callback
+4. Store encrypted refresh tokens
+5. Confirm successful setup
+
+**Expected output**:
+```
+[OK] OAuth credentials configured
+[INFO] Opening browser for authentication...
+[OK] Account added: user@gmail.com
+```
+
+### 05 / Verify Setup
+
+Confirm the setup was successful:
+
+```bash
+node cli.js auth validate
+```
+
+**Expected output**:
+```
+[OK] OAuth credentials configured
+[INFO] Testing connectivity for 1 account(s)...
+[OK] user@gmail.com: Connected
+[OK] All accounts validated successfully
+```
+
+Also verify you can list task lists:
+
+```bash
+node cli.js tasklists list
+```
+
+## Troubleshooting
+
+### Port Already in Use
+
+**Error**: `Port 3000 is in use`
+
+**Solution**: Close other applications using port 3000, or modify the redirect URI:
+1. In Google Cloud Console, update the OAuth credentials redirect URI
+2. Re-run setup with `--redirect-uri http://localhost:3001/oauth/callback`
+
+### Access Blocked - App Not Verified
+
+**Error**: Google shows "Access blocked: This app's request is invalid"
+
+**Solution**:
+- Ensure you added your email as a test user in OAuth consent screen
+- App is in "Testing" mode, which is fine for personal use
+
+### Invalid Client ID
+
+**Error**: `Error 400: invalid_request`
+
+**Solution**: Verify the Client ID is correct and includes `.apps.googleusercontent.com`
+
+### Token Storage Errors
+
+**Error**: `EACCES: permission denied`
+
+**Solution**: Check permissions on `~/.config/gtasks-todo-manager/`
+```bash
+chmod 700 ~/.config/gtasks-todo-manager
+```

@@ -1,0 +1,34 @@
+{
+  "name": "gtasks-todo-manager-cli",
+  "version": "0.1.0",
+  "description": "CLI for managing Google Tasks across multiple accounts",
+  "type": "module",
+  "main": "cli.js",
+  "bin": {
+    "gtasks": "./cli.js"
+  },
+  "scripts": {
+    "start": "node cli.js",
+    "lint": "eslint .",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@googleapis/tasks": "^3.0.0",
+    "commander": "^12.0.0",
+    "googleapis": "^130.0.0",
+    "open": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "google-tasks",
+    "todo",
+    "cli",
+    "multi-account"
+  ],
+  "license": "MIT"
+}
