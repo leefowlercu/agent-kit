@@ -109,10 +109,11 @@ export function formatTasks(tasks, format) {
     return tasks.map((t) => formatTask(t, 'minimal')).join('\n');
   }
 
-  return formatTable(tasks, ['status', 'title', 'due', 'id'], {
+  return formatTable(tasks, ['status', 'title', 'due', 'parent', 'id'], {
     status: 'Status',
     title: 'Title',
     due: 'Due',
+    parent: 'Parent',
     id: 'ID',
   });
 }
