@@ -154,15 +154,19 @@ aggregateCommand
           due: t.due ? t.due.split('T')[0] : '',
           list: t.taskListTitle,
           account: t.accountEmail.split('@')[0],
+          parent: t.parent || '',
+          id: t.id,
         }));
 
         console.log(
-          formatTable(displayTasks, ['status', 'title', 'due', 'list', 'account'], {
+          formatTable(displayTasks, ['status', 'title', 'due', 'list', 'account', 'parent', 'id'], {
             status: 'Status',
             title: 'Title',
             due: 'Due',
             list: 'List',
             account: 'Account',
+            parent: 'Parent',
+            id: 'ID',
           })
         );
       }
