@@ -88,6 +88,7 @@ accountsCommand
 
       const userInfo = await authenticateNewAccount();
       success(`Account added: ${userInfo.email}`);
+      process.exit(0);
     } catch (err) {
       error(`Failed to add account: ${err.message}`);
       process.exit(1);

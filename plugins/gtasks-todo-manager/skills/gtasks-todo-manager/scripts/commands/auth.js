@@ -96,6 +96,9 @@ authCommand
         info('Now authenticate your first Google account...');
         await authenticateNewAccount();
       }
+
+      // Exit cleanly after setup completes
+      process.exit(0);
     } catch (err) {
       error(`Setup failed: ${err.message}`);
       process.exit(1);
