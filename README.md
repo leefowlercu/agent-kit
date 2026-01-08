@@ -61,7 +61,8 @@ agent-kit/
 │   │       └── agent-skill-builder/
 │   │           ├── SKILL.md           # Main skill definition
 │   │           ├── README.md          # Skill documentation
-│   │           └── references/        # Workflow, schemas, templates
+│   │           ├── references/        # Workflow, schemas, templates
+│   │           └── scripts/           # Validation scripts
 │   ├── project-docs-reconciler/
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json # Plugin metadata
@@ -77,27 +78,27 @@ agent-kit/
 │   │   └── commands/
 │   │       ├── spec-interviewer.md # Specification interviewer
 │   │       └── spec-planner.md     # Implementation planner
-│   └── op-secrets-manager/
-│       ├── .claude-plugin/
-│       │   └── plugin.json # Plugin metadata
-│       ├── README.md       # Plugin documentation
-│       └── skills/
-│           ├── op-secrets-reader/
-│           │   ├── SKILL.md           # Main skill definition
-│           │   ├── README.md          # Skill documentation
-│           │   └── references/        # Command and schema references
-│           ├── op-secrets-creator/
-│           │   ├── SKILL.md           # Main skill definition
-│           │   ├── README.md          # Skill documentation
-│           │   └── references/        # Command and template references
-│           ├── op-secrets-updater/
-│           │   ├── SKILL.md           # Main skill definition
-│           │   ├── README.md          # Skill documentation
-│           │   └── references/        # Command references
-│           └── op-secrets-deleter/
-│               ├── SKILL.md           # Main skill definition
-│               ├── README.md          # Skill documentation
-│               └── references/        # Command references
+│   ├── op-secrets-manager/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json # Plugin metadata
+│   │   ├── README.md       # Plugin documentation
+│   │   └── skills/
+│   │       ├── op-secrets-reader/
+│   │       │   ├── SKILL.md           # Main skill definition
+│   │       │   ├── README.md          # Skill documentation
+│   │       │   └── references/        # Command and schema references
+│   │       ├── op-secrets-creator/
+│   │       │   ├── SKILL.md           # Main skill definition
+│   │       │   ├── README.md          # Skill documentation
+│   │       │   └── references/        # Command and template references
+│   │       ├── op-secrets-updater/
+│   │       │   ├── SKILL.md           # Main skill definition
+│   │       │   ├── README.md          # Skill documentation
+│   │       │   └── references/        # Command references
+│   │       └── op-secrets-deleter/
+│   │           ├── SKILL.md           # Main skill definition
+│   │           ├── README.md          # Skill documentation
+│   │           └── references/        # Command references
 │   └── gtasks-todo-manager/
 │       ├── .claude-plugin/
 │       │   └── plugin.json # Plugin metadata
