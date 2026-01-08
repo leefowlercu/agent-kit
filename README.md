@@ -43,7 +43,7 @@ This Agent Kit is a marketplace of Claude Code plugins that extend Claude's capa
 | [project-docs-reconciler](plugins/project-docs-reconciler) | Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs) | 0.1.1 |
 | [spec-interviewer-planner](plugins/spec-interviewer-planner) | Commands for interviewing about specifications and generating implementation plans | 0.1.1 |
 | [op-secrets-manager](plugins/op-secrets-manager) | Skills for interacting with 1Password through the op CLI | 0.1.0 |
-| [gtasks-todo-manager](plugins/gtasks-todo-manager) | Manages to-dos across multiple Google accounts using the Google Tasks API | 0.1.7 |
+| [gtasks-todo-manager](plugins/gtasks-todo-manager) | Manages to-dos across multiple Google accounts using the Google Tasks API | 0.2.0 |
 
 ## Repository Structure
 
@@ -112,10 +112,10 @@ agent-kit/
 │       │   └── gtasks-summary.md     # Summary command
 │       └── skills/
 │           └── gtasks-todo-manager/
-│               ├── SKILL.md           # Main skill definition
+│               ├── SKILL.md           # Skill router
 │               ├── README.md          # Skill documentation
 │               ├── references/
-│               │   ├── workflow/      # Workflow step references
+│               │   ├── operations/    # Self-contained operation guides
 │               │   ├── api/           # Google Tasks API reference
 │               │   └── schemas/       # JSON schemas
 │               └── scripts/           # CLI and automation scripts

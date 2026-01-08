@@ -69,7 +69,7 @@ Once task information is determined, invoke the `gtasks-todo-manager` skill with
 - Account (if specified)
 - Parent task ID (if creating a subtask)
 
-The skill's **Phase 3, Stage 4: Task Operations** handles task creation.
+The skill's **Tasks** operation handles task creation.
 
 ## Confirmation
 

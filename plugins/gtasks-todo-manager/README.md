@@ -2,7 +2,7 @@
 
 Manages to-dos across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.1.7
+**Version**: 0.2.0
 **License**: MIT
 
 ## Overview
@@ -104,7 +104,8 @@ Run `/gtasks-setup` and the skill will guide you through:
 ## Documentation
 
 - [Skill Documentation](skills/gtasks-todo-manager/README.md)
-- [First-Run Setup Guide](skills/gtasks-todo-manager/references/workflow/01-first-run-setup.md)
-- [Account Management](skills/gtasks-todo-manager/references/workflow/02-account-management.md)
-- [Task List Operations](skills/gtasks-todo-manager/references/workflow/03-task-list-operations.md)
-- [Task Operations](skills/gtasks-todo-manager/references/workflow/04-task-operations.md)
+- [Setup & Account Management](skills/gtasks-todo-manager/references/operations/setup.md)
+- [Task Operations](skills/gtasks-todo-manager/references/operations/tasks.md)
+- [Task List Operations](skills/gtasks-todo-manager/references/operations/tasklists.md)
+- [Aggregation & Summary](skills/gtasks-todo-manager/references/operations/aggregate.md)
+- [Task Suggestions](skills/gtasks-todo-manager/references/operations/suggestions.md)

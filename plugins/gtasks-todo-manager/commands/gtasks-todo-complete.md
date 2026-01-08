@@ -54,7 +54,7 @@ If `$ARGUMENTS` is empty:
 
 Once the task is identified, invoke the `gtasks-todo-manager` skill to complete it.
 
-The skill's **Phase 3, Stage 4: Task Operations** handles task completion.
+The skill's **Tasks** operation handles task completion.
 
 ## Confirmation
 

@@ -1,20 +1,30 @@
-# First-Run Setup Workflow Step Reference
+# Setup Operation Reference
 
 ## Table of Contents
 
 - [Purpose](#purpose)
 - [Prerequisites](#prerequisites)
-- [Step Instructions](#step-instructions)
-  - [01 / Check Existing Configuration](#01--check-existing-configuration)
-  - [02 / Guide OAuth App Creation](#02--guide-oauth-app-creation)
-  - [03 / Collect OAuth Credentials](#03--collect-oauth-credentials)
-  - [04 / Run Auth Setup](#04--run-auth-setup)
-  - [05 / Verify Setup](#05--verify-setup)
+- [First-Run Setup](#first-run-setup)
+  - [Check Existing Configuration](#check-existing-configuration)
+  - [Guide OAuth App Creation](#guide-oauth-app-creation)
+  - [Collect OAuth Credentials](#collect-oauth-credentials)
+  - [Run Auth Setup](#run-auth-setup)
+  - [Verify Setup](#verify-setup)
+- [Account Management](#account-management)
+  - [List Configured Accounts](#list-configured-accounts)
+  - [Add a New Account](#add-a-new-account)
+  - [Remove an Account](#remove-an-account)
+  - [Check Account Status](#check-account-status)
+  - [Set Default Account](#set-default-account)
+- [Account States](#account-states)
 - [Troubleshooting](#troubleshooting)
 
 ## Purpose
 
-This workflow step guides users through the initial setup of the gtasks-todo-manager skill, including creating a Google Cloud OAuth application and authenticating their first Google account.
+This operation covers OAuth credential setup and Google account management. Use this when:
+- Setting up the skill for the first time
+- Adding or removing Google accounts
+- Fixing authentication issues
 
 ## Prerequisites
 
@@ -22,9 +32,9 @@ This workflow step guides users through the initial setup of the gtasks-todo-man
 - A Google account with access to Google Cloud Console
 - Web browser for OAuth authentication flow
 
-## Step Instructions
+## First-Run Setup
 
-### 01 / Check Existing Configuration
+### Check Existing Configuration
 
 First, check if the skill is already configured:
 
@@ -32,13 +42,13 @@ First, check if the skill is already configured:
 node scripts/cli.js auth validate
 ```
 
-**If successful**: Setup is complete, skip to account management.
+**If successful**: Setup is complete, skip to [Account Management](#account-management).
 
 **If error "No configuration found"**: Proceed with first-run setup.
 
 **If error "OAuth credentials not configured"**: Proceed to collect credentials.
 
-### 02 / Guide OAuth App Creation
+### Guide OAuth App Creation
 
 Guide the user through creating a Google Cloud OAuth application by presenting these instructions in the **EXACT** format below:
 
@@ -90,7 +100,7 @@ Guide the user through creating a Google Cloud OAuth application by presenting t
    - **Copy the Client ID and Client Secret** from the confirmation dialog
 ```
 
-### 03 / Collect OAuth Credentials
+### Collect OAuth Credentials
 
 The user will be provided with two values from the OAuth credentials:
 
@@ -111,9 +121,9 @@ You **MUST** use the `AskUserQuestion` tool to ask the user if they would like t
     - "Run setup manually in my terminal"
   - MultiSelect: false
 
-### 04 / Run Auth Setup
+### Run Auth Setup
 
-Based on the user's choice in the preceeding step, proceed with one of the following options:
+Based on the user's choice in the preceding step, proceed with one of the following options:
 
 **Option A: Through Claude Code (Automated Setup)**
 
@@ -121,7 +131,7 @@ Prompt the user to enter their OAuth Client ID and Client Secret. Once collected
 
 ```bash
 node scripts/cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET>"
-``` 
+```
 
 **Option B: Through Terminal (Manual Setup)**
 
@@ -160,12 +170,12 @@ The setup will:
 ```
 ````
 
-### 05 / Verify Setup
+### Verify Setup
 
 Confirm the setup was successful:
 
 ```bash
-node cli.js auth validate
+node scripts/cli.js auth validate
 ```
 
 **Expected output**:
@@ -179,8 +189,144 @@ node cli.js auth validate
 Also verify you can list task lists:
 
 ```bash
-node cli.js tasklists list
+node scripts/cli.js tasklists list
 ```
+
+## Account Management
+
+### List Configured Accounts
+
+View all configured accounts and their status:
+
+```bash
+node scripts/cli.js accounts list
+```
+
+**Output formats**:
+
+| Format | Command | Use Case |
+|--------|---------|----------|
+| Table | `--format table` (default) | Human-readable |
+| JSON | `--format json` | Programmatic access |
+| Minimal | `--format minimal` | Scripting |
+
+**Example output (table)**:
+```
+Email                          Name           Status
+-----------------------------  -------------  ------
+personal@gmail.com (default)   John Doe       active
+work@company.com               John D.        active
+shared@workspace.com           Team Account   expired
+```
+
+### Add a New Account
+
+Add a new Google account via OAuth flow:
+
+```bash
+node scripts/cli.js accounts add
+```
+
+**Process**:
+1. Browser opens to Google sign-in
+2. User authenticates with the Google account to add
+3. User grants Google Tasks API access
+4. Tokens are encrypted and stored
+5. Account appears in accounts list
+
+**Notes**:
+- Each account requires its own OAuth consent
+- Test users must be added to OAuth consent screen for external apps
+- Workspace accounts may require admin approval
+
+**Example output**:
+```
+[INFO] Opening browser for authentication...
+[INFO] If browser doesn't open, visit: https://accounts.google.com/o/oauth2/...
+[OK] Account added: newaccount@gmail.com
+```
+
+### Remove an Account
+
+Remove a configured account:
+
+```bash
+node scripts/cli.js accounts remove <email>
+```
+
+**Options**:
+
+| Option | Description |
+|--------|-------------|
+| `--revoke` | Also revoke OAuth access with Google |
+| `--force` | Skip confirmation prompt |
+
+**Examples**:
+
+```bash
+# Remove account, keep OAuth grant
+node scripts/cli.js accounts remove old@gmail.com
+
+# Remove and revoke OAuth access
+node scripts/cli.js accounts remove old@gmail.com --revoke
+```
+
+**With revoke**: The refresh token is invalidated with Google, preventing any future access using stored tokens.
+
+**Without revoke**: Tokens are deleted locally, but the OAuth grant remains. The user would need to revoke access manually in [Google Account settings](https://myaccount.google.com/permissions).
+
+### Check Account Status
+
+Get detailed status for a specific account:
+
+```bash
+# Check specific account
+node scripts/cli.js accounts status user@gmail.com
+
+# Check default account
+node scripts/cli.js accounts status
+
+# Test connectivity
+node scripts/cli.js accounts status user@gmail.com --test
+```
+
+**Output fields**:
+
+| Field | Description |
+|-------|-------------|
+| email | Account email address |
+| displayName | User's display name from Google |
+| status | Connection status (active, expired, revoked, error) |
+| addedAt | When account was first added |
+| lastUsed | Last successful API call |
+
+**With `--test`**: Performs an actual API call to verify connectivity and updates the status.
+
+### Set Default Account
+
+Set which account is used when `--account` is not specified:
+
+```bash
+node scripts/cli.js accounts default work@company.com
+```
+
+**Behavior**:
+- All commands use default account unless `--account` is specified
+- First added account becomes default automatically
+- If default account is removed, first remaining account becomes default
+
+## Account States
+
+| State | Description | Resolution |
+|-------|-------------|------------|
+| `active` | Tokens valid, API accessible | None needed |
+| `expired` | Access token expired | Auto-refreshes on next use |
+| `revoked` | User revoked access in Google settings | Remove and re-add account |
+| `error` | Other API error occurred | Check with `--test`, may need re-auth |
+
+**Automatic refresh**: When an access token expires, the CLI automatically uses the refresh token to obtain a new access token. This happens transparently.
+
+**Revoked access**: If a user revokes access via [Google Account permissions](https://myaccount.google.com/permissions), the refresh token becomes invalid. The account must be removed and re-added.
 
 ## Troubleshooting
 
@@ -214,3 +360,15 @@ node cli.js tasklists list
 ```bash
 chmod 700 ~/.config/gtasks-todo-manager
 ```
+
+### Workspace Account Considerations
+
+Google Workspace accounts may have additional restrictions:
+- Admin may need to approve the OAuth app
+- Some scopes may be restricted
+- Shared drives/resources follow Workspace policies
+
+To add a Workspace account:
+1. Ensure app is added to allowed apps (if org has restrictions)
+2. User must have Google Tasks enabled in Workspace
+3. Follow standard add flow

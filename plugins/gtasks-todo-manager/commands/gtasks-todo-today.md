@@ -44,7 +44,7 @@ If `$ARGUMENTS` is empty, invoke the skill to suggest 3 prioritized tasks across
 
 Invoke the `gtasks-todo-manager` skill to suggest tasks for today.
 
-The skill's **Phase 3, Stage 4, Step 6: Suggesting Tasks for Today** contains the guidance for:
+The skill's **Suggestions** operation contains the guidance for:
 
 1. Retrieving pending tasks (optionally filtered by account or list)
 2. Applying prioritization:

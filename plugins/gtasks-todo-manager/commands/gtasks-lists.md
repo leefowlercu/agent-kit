@@ -66,7 +66,7 @@ Then offer: "Would you like to create, rename, or delete a list?"
 
 Invoke the `gtasks-todo-manager` skill with the determined action and parameters.
 
-The skill's **Phase 3, Stage 3: Task List Operations** handles all list management.
+The skill's **Task Lists** operation handles all list management.
 
 ## Confirmation
 

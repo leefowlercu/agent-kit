@@ -59,7 +59,8 @@ Then offer: "Would you like to see a specific list, filter by date, or see compl
 
 Invoke the `gtasks-todo-manager` skill with the determined filters.
 
-The skill's **Phase 3, Stage 4: Task Operations** handles task listing, and **Step 5: Cross-Account Views** handles aggregation.
+- For single-list views, use the skill's **Tasks** operation
+- For cross-account views, use the skill's **Aggregation** operation
 
 ## Output
 

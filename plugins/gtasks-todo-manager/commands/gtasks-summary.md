@@ -10,7 +10,7 @@ This command displays a summary of tasks and task lists across all configured Go
 
 Invoke the `gtasks-todo-manager` skill to generate a cross-account summary.
 
-The skill's **Phase 3, Stage 4, Step 5: Cross-Account Views** provides the aggregate summary capability.
+The skill's **Aggregation** operation provides the summary capability.
 
 Instruct the skill to provide:
 

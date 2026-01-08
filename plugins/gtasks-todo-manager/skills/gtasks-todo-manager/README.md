@@ -2,7 +2,7 @@
 
 Manages to-do items across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.1.0
+**Version**: 0.2.0
 
 ## Overview
 
@@ -162,14 +162,15 @@ Global Options:
 
 ```
 skills/gtasks-todo-manager/
-├── SKILL.md                     # Main skill definition
+├── SKILL.md                     # Skill router (routes to operations)
 ├── README.md                    # This file
 ├── references/
-│   ├── workflow/
-│   │   ├── 01-first-run-setup.md
-│   │   ├── 02-account-management.md
-│   │   ├── 03-task-list-operations.md
-│   │   └── 04-task-operations.md
+│   ├── operations/              # Self-contained operation guides
+│   │   ├── setup.md             # OAuth & account management
+│   │   ├── tasks.md             # Task CRUD operations
+│   │   ├── tasklists.md         # Task list management
+│   │   ├── aggregate.md         # Cross-account views
+│   │   └── suggestions.md       # Task prioritization
 │   ├── api/
 │   │   └── google-tasks-api.md
 │   └── schemas/
