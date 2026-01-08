@@ -26,6 +26,82 @@ export const aggregateCommand = new Command('aggregate')
   .description('Cross-account views and aggregation');
 
 /**
+ * Builds a tree structure from a flat list of tasks.
+ * @param {object[]} tasks - Flat array of tasks with id and parent fields
+ * @returns {object[]} Array of root task nodes with children arrays
+ */
+function buildTaskTree(tasks) {
+  const taskMap = new Map();
+  const roots = [];
+
+  for (const task of tasks) {
+    taskMap.set(task.id, { ...task, children: [] });
+  }
+
+  for (const task of tasks) {
+    const node = taskMap.get(task.id);
+    if (task.parent && taskMap.has(task.parent)) {
+      taskMap.get(task.parent).children.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+
+  return roots;
+}
+
+/**
+ * Recursively formats a task node with account info.
+ * @param {object} node - Task node with children array
+ * @param {string} prefix - Current line prefix
+ * @param {boolean} isLast - Whether this is the last sibling
+ * @param {boolean} isRoot - Whether this is a root-level task
+ * @returns {string[]} Array of formatted lines
+ */
+function formatAggregateTaskNode(node, prefix = '', isLast = true, isRoot = true) {
+  const status = node.status === 'completed' ? '[x]' : '[ ]';
+  const account = node.accountEmail.split('@')[0];
+  const lines = [];
+
+  if (isRoot) {
+    lines.push(`${status} ${node.title} (${account})`);
+  } else {
+    const connector = isLast ? '└── ' : '├── ';
+    lines.push(`${prefix}${connector}${status} ${node.title} (${account})`);
+  }
+
+  const childPrefix = isRoot ? '    ' : prefix + (isLast ? '    ' : '│   ');
+
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i];
+    const isLastChild = i === node.children.length - 1;
+    lines.push(...formatAggregateTaskNode(child, childPrefix, isLastChild, false));
+  }
+
+  return lines;
+}
+
+/**
+ * Formats aggregate tasks as a tree with account info.
+ * @param {object[]} tasks - Flat array of tasks
+ * @returns {string} Tree-formatted task list
+ */
+function formatAggregateTasksAsTree(tasks) {
+  if (tasks.length === 0) {
+    return 'No tasks found.';
+  }
+
+  const roots = buildTaskTree(tasks);
+  const lines = [];
+
+  for (const root of roots) {
+    lines.push(...formatAggregateTaskNode(root));
+  }
+
+  return lines.join('\n');
+}
+
+/**
  * Tasks subcommand - List tasks across all accounts.
  */
 aggregateCommand
@@ -142,10 +218,7 @@ aggregateCommand
       if (options.format === 'json') {
         console.log(formatJson(allTasks));
       } else if (options.format === 'minimal') {
-        for (const task of allTasks) {
-          const status = task.status === 'completed' ? '[x]' : '[ ]';
-          console.log(`${status} ${task.title} (${task.accountEmail})`);
-        }
+        console.log(formatAggregateTasksAsTree(allTasks));
       } else {
         // Table format
         const displayTasks = allTasks.map((t) => ({
@@ -171,7 +244,7 @@ aggregateCommand
         );
       }
 
-      info(`\nShowing ${allTasks.length} task(s) across ${accounts.length} account(s)`);
+      info(`Showing ${allTasks.length} task(s) across ${accounts.length} account(s)`);
     } catch (err) {
       error(`Failed to aggregate tasks: ${err.message}`);
       process.exit(1);
@@ -285,7 +358,7 @@ aggregateCommand
         console.log(formatTable(displayLists, columns, headers));
       }
 
-      info(`\nShowing ${allLists.length} list(s) across ${accounts.length} account(s)`);
+      info(`Showing ${allLists.length} list(s) across ${accounts.length} account(s)`);
     } catch (err) {
       error(`Failed to aggregate lists: ${err.message}`);
       process.exit(1);

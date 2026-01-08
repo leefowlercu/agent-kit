@@ -1,6 +1,6 @@
 {
   "name": "gtasks-todo-manager",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Manages to-dos across multiple Google accounts using the Google Tasks API",
   "author": {
     "name": "Lee Fowler"
