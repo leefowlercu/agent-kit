@@ -101,8 +101,6 @@ The user will be provided with two values from the OAuth credentials:
 
 **Important**: These credentials must be kept secure. They will be stored locally in `~/.config/gtasks-todo-manager/config.json`.
 
-### 04 / Run Auth Setup
-
 You **MUST** use the `AskUserQuestion` tool to ask the user if they would like to provide the OAuth Client ID and Client Secret now or run the auth setup manually:
 
 **Question: OAuth Setup**
@@ -113,7 +111,9 @@ You **MUST** use the `AskUserQuestion` tool to ask the user if they would like t
     - "Run setup manually in my terminal"
   - MultiSelect: false
 
-Based on the user's choice, proceed with one of the following options:
+### 04 / Run Auth Setup
+
+Based on the user's choice in the preceeding step, proceed with one of the following options:
 
 **Option A: Through Claude Code (Automated Setup)**
 
