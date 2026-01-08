@@ -59,6 +59,84 @@ export function formatTable(rows, columns, headers = {}) {
 }
 
 /**
+ * Builds a tree structure from a flat list of tasks.
+ * @param {object[]} tasks - Flat array of tasks with id and parent fields
+ * @returns {object[]} Array of root task nodes with children arrays
+ */
+function buildTaskTree(tasks) {
+  const taskMap = new Map();
+  const roots = [];
+
+  // First pass: create map of all tasks by ID
+  for (const task of tasks) {
+    taskMap.set(task.id, { ...task, children: [] });
+  }
+
+  // Second pass: build tree structure
+  for (const task of tasks) {
+    const node = taskMap.get(task.id);
+    if (task.parent && taskMap.has(task.parent)) {
+      taskMap.get(task.parent).children.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+
+  return roots;
+}
+
+/**
+ * Recursively formats a task node and its children as a tree.
+ * @param {object} node - Task node with children array
+ * @param {string} prefix - Current line prefix for indentation
+ * @param {boolean} isLast - Whether this is the last sibling
+ * @param {boolean} isRoot - Whether this is a root-level task
+ * @returns {string[]} Array of formatted lines
+ */
+function formatTaskNode(node, prefix = '', isLast = true, isRoot = true) {
+  const status = node.status === 'completed' ? '[x]' : '[ ]';
+  const lines = [];
+
+  if (isRoot) {
+    lines.push(`${status} ${node.title}`);
+  } else {
+    const connector = isLast ? '└── ' : '├── ';
+    lines.push(`${prefix}${connector}${status} ${node.title}`);
+  }
+
+  // Calculate prefix for children
+  const childPrefix = isRoot ? '    ' : prefix + (isLast ? '    ' : '│   ');
+
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i];
+    const isLastChild = i === node.children.length - 1;
+    lines.push(...formatTaskNode(child, childPrefix, isLastChild, false));
+  }
+
+  return lines;
+}
+
+/**
+ * Formats tasks as a tree structure for minimal output.
+ * @param {object[]} tasks - Flat array of tasks
+ * @returns {string} Tree-formatted task list
+ */
+function formatTasksAsTree(tasks) {
+  if (tasks.length === 0) {
+    return 'No tasks found.';
+  }
+
+  const roots = buildTaskTree(tasks);
+  const lines = [];
+
+  for (const root of roots) {
+    lines.push(...formatTaskNode(root));
+  }
+
+  return lines.join('\n');
+}
+
+/**
  * Formats a single task for display.
  * @param {import('../../references/schemas/task.schema.json').Task} task - Task object
  * @param {OutputFormat} format - Output format
@@ -106,7 +184,7 @@ export function formatTasks(tasks, format) {
   }
 
   if (format === 'minimal') {
-    return tasks.map((t) => formatTask(t, 'minimal')).join('\n');
+    return formatTasksAsTree(tasks);
   }
 
   return formatTable(tasks, ['status', 'title', 'due', 'parent', 'id'], {
