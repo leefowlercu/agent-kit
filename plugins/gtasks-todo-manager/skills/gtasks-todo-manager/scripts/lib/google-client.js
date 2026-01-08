@@ -9,8 +9,11 @@ import { tasks } from '@googleapis/tasks';
 import { loadConfig, getAccount, updateAccountStatus } from './config-manager.js';
 import { getValidTokens, decryptTokens, tokensNeedRefresh } from './token-manager.js';
 
-/** OAuth scopes required for Google Tasks API */
-export const SCOPES = ['https://www.googleapis.com/auth/tasks'];
+/** OAuth scopes required for Google Tasks API and user identification */
+export const SCOPES = [
+  'https://www.googleapis.com/auth/tasks',
+  'https://www.googleapis.com/auth/userinfo.email',
+];
 
 /** Default redirect URI for desktop OAuth flow */
 const DEFAULT_REDIRECT_URI = 'http://localhost:3000/oauth/callback';

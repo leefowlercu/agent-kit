@@ -74,7 +74,9 @@ Guide the user through creating a Google Cloud OAuth application:
 4. **Add OAuth Scopes**
    - In Google Auth Platform, go to **Data Access** in the left sidebar
    - Click **Add or remove scopes**
-   - Find and select `https://www.googleapis.com/auth/tasks`
+   - Find and select these scopes:
+     - `https://www.googleapis.com/auth/tasks` (Google Tasks API)
+     - `https://www.googleapis.com/auth/userinfo.email` (to identify the authenticated user)
    - Click **Update** to save
 
 5. **Create OAuth Credentials**
