@@ -87,8 +87,6 @@ The user needs to provide two values from the OAuth credentials:
 Execute the setup command with the collected credentials:
 
 ```bash
-cd plugins/gtasks-todo-manager/skills/gtasks-todo-manager/scripts
-npm install
 node cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET>"
 ```
 

@@ -17,3 +17,5 @@ Thumbs.db
 
 # Dependencies
 **/node_modules/
+# Exception: bundled dependencies for gtasks-todo-manager
+!plugins/gtasks-todo-manager/skills/gtasks-todo-manager/scripts/node_modules/

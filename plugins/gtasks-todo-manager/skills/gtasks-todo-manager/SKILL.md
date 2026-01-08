@@ -41,12 +41,10 @@ The skill uses a BYOC (Bring Your Own Credentials) model where users provide the
 **Before starting any task management operations**, ensure:
 
 1. **First-time setup completed**: User has configured OAuth credentials and authenticated at least one account
-2. **CLI dependencies installed**: `npm install` has been run in the scripts directory
-3. **Account connectivity verified**: `auth validate` shows active status
+2. **Account connectivity verified**: `auth validate` shows active status
 
 To check if setup is complete:
 ```bash
-cd plugins/gtasks-todo-manager/skills/gtasks-todo-manager/scripts
 node cli.js auth validate
 ```
 
@@ -76,8 +74,6 @@ See [First-Run Setup Reference](references/workflow/01-first-run-setup.md) for d
 
 **Quick setup** (if user has OAuth credentials ready):
 ```bash
-cd plugins/gtasks-todo-manager/skills/gtasks-todo-manager/scripts
-npm install
 node cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET>"
 ```
 
