@@ -2,7 +2,7 @@
 
 Manages to-do items across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.2.3
+**Version**: 0.2.4
 
 ## Overview
 

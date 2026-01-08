@@ -90,6 +90,7 @@ aggregateCommand
               tasklist: list.id,
               maxResults: Math.min(100, limit - allTasks.length),
               showCompleted: options.showCompleted,
+              showHidden: options.showCompleted,
             };
 
             if (options.dueAfter) {

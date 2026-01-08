@@ -115,10 +115,12 @@ tasksCommand
       const listId = await resolveTaskListId(service, list);
 
       // Build request parameters
+      const showCompleted = !options.hideCompleted;
       const params = {
         tasklist: listId,
         maxResults: 100,
-        showCompleted: !options.hideCompleted,
+        showCompleted,
+        showHidden: showCompleted,
       };
 
       if (options.dueAfter) {
