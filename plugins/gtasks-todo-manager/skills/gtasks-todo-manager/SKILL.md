@@ -16,6 +16,7 @@ The skill uses a BYOC (Bring Your Own Credentials) model where users provide the
 - [Supported Operations](#supported-operations)
 - [Prerequisites](#prerequisites)
 - [Workflow: Managing Google Tasks](#workflow-managing-google-tasks)
+  - [CLI Location](#cli-location)
   - [Important Workflow Guidelines](#important-workflow-guidelines)
   - [Phase 1: Setup](#phase-1-setup)
   - [Phase 2: Account Management](#phase-2-account-management)
@@ -52,8 +53,29 @@ If setup is not complete, begin with Phase 1.
 
 # Workflow: Managing Google Tasks
 
+## CLI Location
+
+The CLI is located in the `scripts` subdirectory of this skill's base directory. When this skill is loaded, you receive a "Base directory for this skill" path. The CLI path is:
+
+```
+{base_directory}/scripts/cli.js
+```
+
+**All CLI commands must be run from the scripts directory.** For example:
+
+```bash
+cd {base_directory}/scripts && node cli.js auth validate
+```
+
+Or using the full path:
+
+```bash
+node {base_directory}/scripts/cli.js auth validate
+```
+
 ## Important Workflow Guidelines
 
+- **Always run CLI commands from the `scripts` subdirectory** or use the full path to `scripts/cli.js`
 - Determine user intent before executing commands
 - Always specify `--account` when user has multiple accounts configured
 - Use `--format json` when output will be processed programmatically
