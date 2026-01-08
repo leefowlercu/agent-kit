@@ -2,7 +2,7 @@
 
 Manages to-dos across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.1.1
+**Version**: 0.1.2
 **License**: MIT
 
 ## Overview

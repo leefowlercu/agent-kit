@@ -52,24 +52,38 @@ Guide the user through creating a Google Cloud OAuth application:
    - Search for "Google Tasks API"
    - Click **Enable**
 
-3. **Configure OAuth Consent Screen**
-   - Navigate to **APIs & Services > OAuth consent screen**
-   - Select **External** user type (unless using Workspace)
-   - Fill in required fields:
-     - App name: "Google Tasks CLI" (or your preference)
-     - User support email: Your email
-     - Developer contact: Your email
-   - Add scope: `https://www.googleapis.com/auth/tasks`
-   - Add your email as a test user
-   - Save and continue
+3. **Configure Google Auth Platform**
+   - Navigate to **Google Auth Platform**
+   - Click **Get started** if this is a new project
+   - Complete the wizard:
+     - **Step 1 - App Information**:
+       - App name: "Google Tasks CLI" (or your preference)
+       - User support email: Select your email
+       - Click **Next**
+     - **Step 2 - Audience**:
+       - Select **External** (unless using Google Workspace with internal-only access)
+       - Click **Next**
+     - **Step 3 - Contact Information**:
+       - Add your email as developer contact
+       - Click **Next**
+     - **Step 4 - Finish**:
+       - Review and click **Create**
+   - After creation, go to **Audience** in the left sidebar
+   - Under **Test users**, click **Add users** and add your email address
 
-4. **Create OAuth Credentials**
-   - Navigate to **APIs & Services > Credentials**
-   - Click **Create Credentials > OAuth client ID**
+4. **Add OAuth Scopes**
+   - In Google Auth Platform, go to **Data Access** in the left sidebar
+   - Click **Add or remove scopes**
+   - Find and select `https://www.googleapis.com/auth/tasks`
+   - Click **Update** to save
+
+5. **Create OAuth Credentials**
+   - In Google Auth Platform, go to **Clients** in the left sidebar
+   - Click **Create Client**
    - Select **Desktop app** as application type
    - Name it (e.g., "gtasks-cli")
    - Click **Create**
-   - **Copy the Client ID and Client Secret**
+   - **Copy the Client ID and Client Secret** from the confirmation dialog
 
 ### 03 / Collect OAuth Credentials
 
@@ -147,7 +161,7 @@ node cli.js tasklists list
 **Error**: Google shows "Access blocked: This app's request is invalid"
 
 **Solution**:
-- Ensure you added your email as a test user in OAuth consent screen
+- Ensure you added your email as a test user in **Google Auth Platform > Audience > Test users**
 - App is in "Testing" mode, which is fine for personal use
 
 ### Invalid Client ID
