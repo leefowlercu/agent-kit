@@ -98,17 +98,30 @@ The user needs to provide two values from the OAuth credentials:
 
 ### 04 / Run Auth Setup
 
-Execute the setup command with the collected credentials:
+The skill will run the auth setup command for you. Alternatively, if you prefer not to enter credentials through Claude Code, you can run the setup directly in your terminal.
+
+**Option A: Through Claude Code**
+
+The skill will execute the setup command with your credentials.
+
+**Option B: Direct terminal setup**
+
+Run the CLI directly in your terminal outside of Claude Code:
 
 ```bash
+# Navigate to the plugin's scripts directory
+cd ~/.claude/plugins/cache/leefowlercu-agent-kit/gtasks-todo-manager/*/skills/gtasks-todo-manager/scripts
+
+# Run setup with credentials
 node cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET>"
-```
 
-Or run interactively:
-
-```bash
+# Or run interactively (CLI will prompt for credentials)
 node cli.js auth setup
 ```
+
+After completing setup in your terminal, return to Claude Code and the skill will detect that configuration is complete.
+
+**What the setup does:**
 
 The setup will:
 1. Save OAuth credentials to config file
