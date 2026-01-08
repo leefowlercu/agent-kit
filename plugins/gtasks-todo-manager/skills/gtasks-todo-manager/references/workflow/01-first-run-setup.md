@@ -40,8 +40,9 @@ node scripts/cli.js auth validate
 
 ### 02 / Guide OAuth App Creation
 
-Guide the user through creating a Google Cloud OAuth application:
+Guide the user through creating a Google Cloud OAuth application by presenting these instructions in the **EXACT** format below:
 
+```markdown
 1. **Create or Select Project**
    - Go to [Google Cloud Console](https://console.cloud.google.com/)
    - Create a new project or select an existing one
@@ -57,11 +58,11 @@ Guide the user through creating a Google Cloud OAuth application:
    - Click **Get started** if this is a new project
    - Complete the wizard:
      - **Step 1 - App Information**:
-       - App name: "Google Tasks CLI" (or your preference)
+       - App name: "Google Tasks Todo Manager" (or your preference)
        - User support email: Select your email
        - Click **Next**
      - **Step 2 - Audience**:
-       - Select **External** (unless using Google Workspace with internal-only access)
+       - Select **External**
        - Click **Next**
      - **Step 3 - Contact Information**:
        - Add your email as developer contact
@@ -77,7 +78,8 @@ Guide the user through creating a Google Cloud OAuth application:
    - Find and select these scopes:
      - `https://www.googleapis.com/auth/tasks` (Google Tasks API)
      - `https://www.googleapis.com/auth/userinfo.email` (to identify the authenticated user)
-   - Click **Update** to save
+   - Click **Update** to add selections to the Data Access scopes
+   - Click **Save** to save the configured scopes
 
 5. **Create OAuth Credentials**
    - In Google Auth Platform, go to **Clients** in the left sidebar
@@ -86,10 +88,11 @@ Guide the user through creating a Google Cloud OAuth application:
    - Name it (e.g., "gtasks-cli")
    - Click **Create**
    - **Copy the Client ID and Client Secret** from the confirmation dialog
+```
 
 ### 03 / Collect OAuth Credentials
 
-The user needs to provide two values from the OAuth credentials:
+The user will be provided with two values from the OAuth credentials:
 
 | Field | Description | Example |
 |-------|-------------|---------|
@@ -100,15 +103,32 @@ The user needs to provide two values from the OAuth credentials:
 
 ### 04 / Run Auth Setup
 
-The skill will run the auth setup command for you. Alternatively, if you prefer not to enter credentials through Claude Code, you can run the setup directly in your terminal.
+You **MUST** use the `AskUserQuestion` tool to ask the user if they would like to provide the OAuth Client ID and Client Secret now or run the auth setup manually:
 
-**Option A: Through Claude Code**
+**Question: OAuth Setup**
+  - Header: "OAuth Setup"
+  - Question: "Would you like to provide your OAuth Client ID and Client Secret now to run the setup automatically, or would you prefer to run the setup manually in your terminal?"
+  - Options:
+    - "Provide credentials now for automatic setup"
+    - "Run setup manually in my terminal"
+  - MultiSelect: false
 
-The skill will execute the setup command with your credentials.
+Based on the user's choice, proceed with one of the following options:
 
-**Option B: Direct terminal setup**
+**Option A: Through Claude Code (Automated Setup)**
 
-Run the CLI directly in your terminal outside of Claude Code:
+Prompt the user to enter their OAuth Client ID and Client Secret. Once collected, run the following command:
+
+```bash
+node scripts/cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET>"
+``` 
+
+**Option B: Through Terminal (Manual Setup)**
+
+Prompt the user to run the auth setup command in their terminal by presenting the following instructions, replacing `*` with the version of the plugin being executed:
+
+````markdown
+To complete the OAuth setup, run the following commands in your terminal, replacing `<CLIENT_ID>` and `<CLIENT_SECRET>` with your actual OAuth credentials:
 
 ```bash
 # Navigate to the plugin's scripts directory
@@ -121,7 +141,7 @@ node cli.js auth setup --client-id "<CLIENT_ID>" --client-secret "<CLIENT_SECRET
 node cli.js auth setup
 ```
 
-After completing setup in your terminal, return to Claude Code and the skill will detect that configuration is complete.
+After completing setup in your terminal return here and confirm that the setup was successful.
 
 **What the setup does:**
 
@@ -138,6 +158,7 @@ The setup will:
 [INFO] Opening browser for authentication...
 [OK] Account added: user@gmail.com
 ```
+````
 
 ### 05 / Verify Setup
 
