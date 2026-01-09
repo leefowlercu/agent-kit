@@ -50,76 +50,76 @@ This Agent Kit is a marketplace of Claude Code plugins that extend Claude's capa
 ```
 agent-kit/
 ├── .claude-plugin/
-│   ├── marketplace.json    # Plugin marketplace catalog
-│   └── README.md           # Marketplace configuration docs
+│   ├── marketplace.json                    # Plugin marketplace catalog
+│   └── README.md                           # Marketplace configuration docs
 ├── plugins/
 │   ├── agent-skill-builder/
 │   │   ├── .claude-plugin/
-│   │   │   └── plugin.json # Plugin metadata
-│   │   ├── README.md       # Plugin documentation
+│   │   │   └── plugin.json                 # Plugin metadata
+│   │   ├── README.md                       # Plugin documentation
 │   │   └── skills/
 │   │       └── agent-skill-builder/
-│   │           ├── SKILL.md           # Main skill definition
-│   │           ├── README.md          # Skill documentation
-│   │           ├── references/        # Workflow, schemas, templates
-│   │           └── scripts/           # Validation scripts
+│   │           ├── SKILL.md                # Main skill definition
+│   │           ├── README.md               # Skill documentation
+│   │           ├── references/             # Workflow, schemas, templates
+│   │           └── scripts/                # Validation scripts
 │   ├── project-docs-reconciler/
 │   │   ├── .claude-plugin/
-│   │   │   └── plugin.json # Plugin metadata
-│   │   ├── README.md       # Plugin documentation
+│   │   │   └── plugin.json                 # Plugin metadata
+│   │   ├── README.md                       # Plugin documentation
 │   │   └── commands/
-│   │       ├── claude-md.md    # CLAUDE.md reconciliation
-│   │       ├── readme-md.md    # README.md reconciliation
-│   │       └── subsystem-md.md # Subsystem docs reconciliation
+│   │       ├── claude-md.md                # CLAUDE.md reconciliation
+│   │       ├── readme-md.md                # README.md reconciliation
+│   │       └── subsystem-md.md             # Subsystem docs reconciliation
 │   ├── spec-interviewer-planner/
 │   │   ├── .claude-plugin/
-│   │   │   └── plugin.json # Plugin metadata
-│   │   ├── README.md       # Plugin documentation
+│   │   │   └── plugin.json                 # Plugin metadata
+│   │   ├── README.md                       # Plugin documentation
 │   │   └── commands/
-│   │       ├── spec-interviewer.md # Specification interviewer
-│   │       └── spec-planner.md     # Implementation planner
+│   │       ├── spec-interviewer.md         # Specification interviewer
+│   │       └── spec-planner.md             # Implementation planner
 │   ├── op-secrets-manager/
 │   │   ├── .claude-plugin/
-│   │   │   └── plugin.json # Plugin metadata
-│   │   ├── README.md       # Plugin documentation
+│   │   │   └── plugin.json                 # Plugin metadata
+│   │   ├── README.md                       # Plugin documentation
 │   │   └── skills/
 │   │       ├── op-secrets-reader/
-│   │       │   ├── SKILL.md           # Main skill definition
-│   │       │   ├── README.md          # Skill documentation
-│   │       │   └── references/        # Command and schema references
+│   │       │   ├── SKILL.md                # Main skill definition
+│   │       │   ├── README.md               # Skill documentation
+│   │       │   └── references/             # Command and schema references
 │   │       ├── op-secrets-creator/
-│   │       │   ├── SKILL.md           # Main skill definition
-│   │       │   ├── README.md          # Skill documentation
-│   │       │   └── references/        # Command and template references
+│   │       │   ├── SKILL.md                # Main skill definition
+│   │       │   ├── README.md               # Skill documentation
+│   │       │   └── references/             # Command and template references
 │   │       ├── op-secrets-updater/
-│   │       │   ├── SKILL.md           # Main skill definition
-│   │       │   ├── README.md          # Skill documentation
-│   │       │   └── references/        # Command references
+│   │       │   ├── SKILL.md                # Main skill definition
+│   │       │   ├── README.md               # Skill documentation
+│   │       │   └── references/             # Command references
 │   │       └── op-secrets-deleter/
-│   │           ├── SKILL.md           # Main skill definition
-│   │           ├── README.md          # Skill documentation
-│   │           └── references/        # Command references
+│   │           ├── SKILL.md                # Main skill definition
+│   │           ├── README.md               # Skill documentation
+│   │           └── references/             # Command references
 │   └── gtasks-todo-manager/
 │       ├── .claude-plugin/
-│       │   └── plugin.json # Plugin metadata
-│       ├── README.md       # Plugin documentation
+│       │   └── plugin.json                 # Plugin metadata
+│       ├── README.md                       # Plugin documentation
 │       ├── commands/
-│       │   ├── gtasks-setup.md       # OAuth setup command
-│       │   ├── gtasks-todo-add.md    # Add task command
-│       │   ├── gtasks-todo-complete.md # Complete task command
-│       │   ├── gtasks-todo-list.md   # List tasks command
-│       │   ├── gtasks-todo-today.md  # Suggest tasks for today
-│       │   ├── gtasks-lists.md       # Manage lists command
-│       │   └── gtasks-summary.md     # Summary command
+│       │   ├── gtasks-setup.md             # OAuth setup command
+│       │   ├── gtasks-todo-add.md          # Add task command
+│       │   ├── gtasks-todo-complete.md     # Complete task command
+│       │   ├── gtasks-todo-list.md         # List tasks command
+│       │   ├── gtasks-todo-today.md        # Suggest tasks for today
+│       │   ├── gtasks-lists.md             # Manage lists command
+│       │   └── gtasks-summary.md           # Summary command
 │       └── skills/
 │           └── gtasks-todo-manager/
-│               ├── SKILL.md           # Skill router
-│               ├── README.md          # Skill documentation
+│               ├── SKILL.md                # Skill router
+│               ├── README.md               # Skill documentation
 │               ├── references/
-│               │   ├── operations/    # Self-contained operation guides
-│               │   ├── api/           # Google Tasks API reference
-│               │   └── schemas/       # JSON schemas
-│               └── scripts/           # CLI and automation scripts
+│               │   ├── operations/         # Self-contained operation guides
+│               │   ├── api/                # Google Tasks API reference
+│               │   └── schemas/            # JSON schemas
+│               └── scripts/                # CLI and automation scripts
 └── LICENSE
 ```
 
