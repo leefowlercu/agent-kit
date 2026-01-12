@@ -17,8 +17,10 @@ import { Command, Option } from 'commander';
 import {
   getAccount,
   getDefaultAccount,
+  getProject,
   isOAuthConfigured,
 } from '../lib/config-manager.js';
+import { getProjectInfo } from '../lib/git-utils.js';
 import { getTasksService } from '../lib/google-client.js';
 import {
   success,
@@ -52,6 +54,29 @@ function resolveAccount(options) {
   }
 
   return defaultAccount.email;
+}
+
+/**
+ * Resolves the project list for the current directory.
+ * @returns {{ listId: string, accountEmail: string, project: object } | null} Project list info or null
+ */
+function resolveProjectList() {
+  const projectInfo = getProjectInfo();
+
+  if (!projectInfo.isGit || !projectInfo.normalizedUri) {
+    return null;
+  }
+
+  const project = getProject(projectInfo.normalizedUri);
+  if (!project) {
+    return null;
+  }
+
+  return {
+    listId: project.taskListId,
+    accountEmail: project.accountEmail,
+    project,
+  };
 }
 
 /**
@@ -92,8 +117,9 @@ async function resolveTaskListId(service, listIdOrTitle) {
 tasksCommand
   .command('list')
   .description('List tasks in a task list')
-  .argument('<list>', 'Task list ID or title')
+  .argument('[list]', 'Task list ID or title (not required if --project is used)')
   .option('-a, --account <email>', 'Google account email')
+  .option('--project', 'Use the current git project\'s task list')
   .addOption(
     new Option('-f, --format <format>', 'Output format')
       .choices(['json', 'table', 'minimal'])
@@ -110,9 +136,28 @@ tasksCommand
         process.exit(1);
       }
 
-      const email = resolveAccount(options);
+      let email;
+      let listId;
+
+      if (options.project) {
+        const projectList = resolveProjectList();
+        if (!projectList) {
+          error('No project association found for current directory.');
+          error('Run "gtasks projects init" to associate a project list.');
+          process.exit(1);
+        }
+        email = options.account || projectList.accountEmail;
+        listId = projectList.listId;
+      } else if (list) {
+        email = resolveAccount(options);
+        const service = await getTasksService(email);
+        listId = await resolveTaskListId(service, list);
+      } else {
+        error('Either specify a task list or use --project flag.');
+        process.exit(1);
+      }
+
       const service = await getTasksService(email);
-      const listId = await resolveTaskListId(service, list);
 
       // Build request parameters
       const showCompleted = !options.hideCompleted;
@@ -199,9 +244,10 @@ tasksCommand
 tasksCommand
   .command('create')
   .description('Create a new task')
-  .argument('<list>', 'Task list ID or title')
   .argument('<title>', 'Task title')
+  .option('-l, --list <list>', 'Task list ID or title (defaults to "My Tasks")')
   .option('-a, --account <email>', 'Google account email')
+  .option('--project', 'Add to the current git project\'s task list')
   .option('-n, --notes <notes>', 'Task notes/description')
   .option('-d, --due <date>', 'Due date (YYYY-MM-DD)')
   .option('-p, --parent <task-id>', 'Parent task ID (for subtasks)')
@@ -210,16 +256,38 @@ tasksCommand
       .choices(['json', 'table', 'minimal'])
       .default('table')
   )
-  .action(async (list, title, options) => {
+  .action(async (title, options) => {
     try {
       if (!isOAuthConfigured()) {
         error('OAuth not configured. Run "gtasks auth setup" first.');
         process.exit(1);
       }
 
-      const email = resolveAccount(options);
+      if (options.project && options.list) {
+        error('Cannot use both --project and --list. Choose one.');
+        process.exit(1);
+      }
+
+      let email;
+      let listId;
+
+      if (options.project) {
+        const projectList = resolveProjectList();
+        if (!projectList) {
+          error('No project association found for current directory.');
+          error('Run "gtasks projects init" to associate a project list.');
+          process.exit(1);
+        }
+        email = options.account || projectList.accountEmail;
+        listId = projectList.listId;
+      } else {
+        email = resolveAccount(options);
+        const service = await getTasksService(email);
+        const list = options.list || 'My Tasks';
+        listId = await resolveTaskListId(service, list);
+      }
+
       const service = await getTasksService(email);
-      const listId = await resolveTaskListId(service, list);
 
       const requestBody = {
         title,

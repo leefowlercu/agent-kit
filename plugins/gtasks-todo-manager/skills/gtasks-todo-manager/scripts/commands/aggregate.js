@@ -10,8 +10,10 @@ import { Command, Option } from 'commander';
 
 import {
   getAccounts,
+  getProject,
   isOAuthConfigured,
 } from '../lib/config-manager.js';
+import { getProjectInfo, isProjectListTitle } from '../lib/git-utils.js';
 import { getTasksService, testAccountConnectivity } from '../lib/google-client.js';
 import {
   success,
@@ -117,6 +119,7 @@ aggregateCommand
   .option('--due-after <date>', 'Filter tasks due after date (YYYY-MM-DD)')
   .option('--status <status>', 'Filter by status (needsAction, completed)')
   .option('--accounts <emails>', 'Comma-separated list of accounts to include')
+  .option('--project', 'Only show tasks from current git project\'s list')
   .option('--limit <n>', 'Maximum number of tasks to return', '100')
   .action(async (options) => {
     try {
@@ -125,11 +128,40 @@ aggregateCommand
         process.exit(1);
       }
 
+      // Handle --project flag
+      let projectListId = null;
+      let projectAccountEmail = null;
+
+      if (options.project) {
+        const projectInfo = getProjectInfo();
+        if (!projectInfo.isGit || !projectInfo.normalizedUri) {
+          error('Not in a git repository or no origin remote found.');
+          process.exit(1);
+        }
+
+        const project = getProject(projectInfo.normalizedUri);
+        if (!project) {
+          error('No project association found for current directory.');
+          error('Run "gtasks projects init" to associate a project list.');
+          process.exit(1);
+        }
+
+        projectListId = project.taskListId;
+        projectAccountEmail = project.accountEmail;
+      }
+
       let accounts = getAccounts();
 
       if (accounts.length === 0) {
         info('No accounts configured. Run "gtasks accounts add" first.');
         return;
+      }
+
+      // Filter to project account if --project is used
+      if (projectAccountEmail) {
+        accounts = accounts.filter((a) =>
+          a.email.toLowerCase() === projectAccountEmail.toLowerCase()
+        );
       }
 
       // Filter accounts if specified
@@ -154,9 +186,15 @@ aggregateCommand
         try {
           const service = await getTasksService(account.email);
 
-          // Get all task lists for this account
-          const listsResponse = await service.tasklists.list({ maxResults: 100 });
-          const lists = listsResponse.data.items || [];
+          // Get task lists - filter to project list if specified
+          let lists;
+          if (projectListId) {
+            const listResponse = await service.tasklists.get({ tasklist: projectListId });
+            lists = [listResponse.data];
+          } else {
+            const listsResponse = await service.tasklists.list({ maxResults: 100 });
+            lists = listsResponse.data.items || [];
+          }
 
           for (const list of lists) {
             if (allTasks.length >= limit) break;
@@ -263,6 +301,7 @@ aggregateCommand
       .default('table')
   )
   .option('--accounts <emails>', 'Comma-separated list of accounts to include')
+  .option('--project', 'Only show project lists ([Project] pattern)')
   .option('--with-counts', 'Include task counts for each list')
   .action(async (options) => {
     try {
@@ -298,7 +337,12 @@ aggregateCommand
           const service = await getTasksService(account.email);
 
           const listsResponse = await service.tasklists.list({ maxResults: 100 });
-          const lists = listsResponse.data.items || [];
+          let lists = listsResponse.data.items || [];
+
+          // Filter to project lists if --project flag is used
+          if (options.project) {
+            lists = lists.filter((list) => isProjectListTitle(list.title));
+          }
 
           for (const list of lists) {
             const enrichedList = {

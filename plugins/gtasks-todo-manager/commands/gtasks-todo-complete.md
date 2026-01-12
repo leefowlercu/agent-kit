@@ -19,6 +19,7 @@ The user may provide information in any format. Extract whatever information is 
 
 - **Task identifier**: Task title, partial title, or task ID (required)
 - **Task list**: Which list the task is in (optional)
+- **Project context**: Whether to search in the current project's list (optional)
 - **Account**: Which Google account (optional)
 
 **Examples of valid inputs**:
@@ -29,10 +30,20 @@ The user may provide information in any format. Extract whatever information is 
 - `complete "call mom" from my personal tasks`
 - `finish the first task in my Shopping list`
 - `dGFza0lkMTIzNDU2` (task ID)
+- `the auth bug fix in the project`
+- `complete API refactor from project list`
+- `mark done the unit tests project task`
 
 Parse account references like "my work account", "personal gmail", "user@gmail.com" to identify the account.
 
 Parse list references like "from Shopping", "in my Work list", "on the personal tasks" to identify the list.
+
+**Project context indicators**:
+- "in the project"
+- "from project list"
+- "project task"
+
+When project context is detected and the current directory is a git repository with an associated project, search within the project's task list first.
 
 ### When Information is Ambiguous
 

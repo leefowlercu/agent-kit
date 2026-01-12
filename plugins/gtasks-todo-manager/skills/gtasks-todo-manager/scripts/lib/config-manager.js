@@ -48,10 +48,25 @@ const CONFIG_FILE = join(CONFIG_DIR, 'config.json');
  */
 
 /**
+ * @typedef {object} Project
+ * @property {string} name - Display name (usually repo name)
+ * @property {string} taskListId - Google Tasks list ID
+ * @property {string} taskListTitle - Full list title (e.g., '[Project] owner/repo')
+ * @property {string} accountEmail - Account email that owns the list
+ * @property {string} createdAt - ISO timestamp when association was created
+ */
+
+/**
+ * @typedef {Object<string, Project>} Projects
+ * Key is the normalized git URI (e.g., 'owner/repo')
+ */
+
+/**
  * @typedef {object} Config
  * @property {OAuthConfig} oauth - OAuth credentials
  * @property {Account[]} accounts - Authenticated accounts
  * @property {Settings} [settings] - User settings
+ * @property {Projects} [projects] - Git repo to task list associations
  */
 
 /**
@@ -152,6 +167,7 @@ export function initConfig(clientId, clientSecret, redirectUri) {
     settings: {
       outputFormat: 'table',
     },
+    projects: {},
   };
 
   saveConfig(config);
@@ -308,4 +324,98 @@ export function setSetting(key, value) {
   config.settings = config.settings || {};
   config.settings[key] = value;
   saveConfig(config);
+}
+
+// ============================================================================
+// Project Management Functions
+// ============================================================================
+
+/**
+ * Gets all project associations.
+ * @returns {Projects} Object of git URI to project mappings
+ */
+export function getProjects() {
+  const config = loadConfig();
+  return config.projects || {};
+}
+
+/**
+ * Gets a project by its normalized git URI.
+ * @param {string} gitUri - Normalized git URI (e.g., 'owner/repo')
+ * @returns {Project | undefined} Project if found
+ */
+export function getProject(gitUri) {
+  const config = loadConfig();
+  return config.projects?.[gitUri];
+}
+
+/**
+ * Saves or updates a project association.
+ * @param {string} gitUri - Normalized git URI (e.g., 'owner/repo')
+ * @param {Project} project - Project data to save
+ */
+export function saveProject(gitUri, project) {
+  const config = loadConfig();
+  config.projects = config.projects || {};
+
+  // Set createdAt only for new projects
+  if (!config.projects[gitUri]) {
+    project.createdAt = project.createdAt || new Date().toISOString();
+  }
+
+  config.projects[gitUri] = project;
+  saveConfig(config);
+}
+
+/**
+ * Removes a project association.
+ * @param {string} gitUri - Normalized git URI to remove
+ * @returns {boolean} True if project was removed
+ */
+export function removeProject(gitUri) {
+  const config = loadConfig();
+
+  if (config.projects?.[gitUri]) {
+    delete config.projects[gitUri];
+    saveConfig(config);
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Gets a project by its Google Tasks list ID.
+ * Useful for reverse lookups when you have a list ID but need the git URI.
+ * @param {string} taskListId - Google Tasks list ID
+ * @returns {{ gitUri: string, project: Project } | undefined} Git URI and project if found
+ */
+export function getProjectByListId(taskListId) {
+  const projects = getProjects();
+
+  for (const [gitUri, project] of Object.entries(projects)) {
+    if (project.taskListId === taskListId) {
+      return { gitUri, project };
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Gets all projects for a specific account.
+ * @param {string} email - Account email
+ * @returns {Array<{ gitUri: string, project: Project }>} Projects for this account
+ */
+export function getProjectsByAccount(email) {
+  const projects = getProjects();
+  const results = [];
+
+  for (const [gitUri, project] of Object.entries(projects)) {
+    if (project.accountEmail.toLowerCase() === email.toLowerCase()) {
+      results.push({ gitUri, project });
+    }
+  }
+
+  return results;
 }

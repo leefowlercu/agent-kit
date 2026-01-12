@@ -23,6 +23,9 @@ The user may provide information in any format. Determine the intended action:
 - `lists in my work account`
 - `--with-counts`
 - `show all lists with task counts`
+- `project lists` - show only `[Project] *` pattern lists
+- `my projects` - show only project lists
+- `show projects` - show only project lists
 
 **Creating**:
 - `create a new list called Projects`
@@ -44,7 +47,16 @@ Extract:
 - **Action**: list, create, rename, or delete
 - **List name(s)**: Target list, new name (for rename)
 - **Account**: Which Google account (optional)
+- **Project filter**: Whether to show only project lists (optional)
 - **Options**: Include task counts, etc.
+
+**Project filter indicators**:
+- "project lists"
+- "my projects"
+- "show projects"
+- "which projects"
+
+When project filter is detected, show only task lists matching the `[Project] *` naming pattern.
 
 ### When Information is Missing
 

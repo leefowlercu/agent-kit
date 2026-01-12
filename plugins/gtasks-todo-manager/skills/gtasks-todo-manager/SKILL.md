@@ -40,6 +40,7 @@ If this command fails, proceed to the **Setup** operation.
 | Create, rename, delete, or list task lists | [Task Lists](references/operations/tasklists.md) |
 | View tasks across accounts, get summary statistics | [Aggregation](references/operations/aggregate.md) |
 | Get prioritized task suggestions for today | [Suggestions](references/operations/suggestions.md) |
+| Associate task lists with git projects, manage project associations | [Projects](references/operations/projects.md) |
 
 **IMPORTANT**: You MUST read the appropriate operation reference before executing any operation. Do not improvise instructions.
 
@@ -54,6 +55,7 @@ If this command fails, proceed to the **Setup** operation.
 | **Subtasks** | Create tasks as children of parent tasks |
 | **Cross-Account** | Aggregate views, filter by account, summary statistics |
 | **Task Suggestions** | Prioritized task suggestions for daily focus |
+| **Projects** | Associate task lists with git repos, cross-workstation sync |
 
 ## Reference Documentation
 

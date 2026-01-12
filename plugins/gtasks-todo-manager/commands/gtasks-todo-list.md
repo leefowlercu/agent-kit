@@ -18,6 +18,7 @@ If `$ARGUMENTS` is not empty, intelligently parse the provided text to determine
 The user may provide information in any format. Extract whatever filtering criteria are present:
 
 - **List name**: Specific task list to show (optional)
+- **Project context**: Whether to show from the current project's list (optional)
 - **Account**: Which Google account (optional)
 - **Status filter**: Pending, completed, or all (optional)
 - **Due date filter**: Due before/after a date, overdue, due today/this week (optional)
@@ -33,6 +34,20 @@ The user may provide information in any format. Extract whatever filtering crite
 - `all completed tasks from the Project list`
 - `tasks due tomorrow`
 - `show me what I need to do today across all accounts`
+- `project tasks`
+- `what's in the project list`
+- `show tasks for this project`
+- `pending project tasks due this week`
+- `completed tasks in the project`
+
+**Project context indicators**:
+- "project tasks"
+- "for this project"
+- "in the project"
+- "the project list"
+- "my project"
+
+When project context is detected and the current directory is a git repository with an associated project, filter to show only tasks from the project's task list.
 
 Parse natural language date filters like "due this week", "overdue", "due by Friday".
 

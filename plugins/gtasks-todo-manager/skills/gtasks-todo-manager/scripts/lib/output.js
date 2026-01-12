@@ -318,3 +318,90 @@ export function warn(message) {
 export function info(message) {
   console.log(`[INFO] ${message}`);
 }
+
+// ============================================================================
+// Project Formatting Functions
+// ============================================================================
+
+/**
+ * @typedef {object} ProjectWithMeta
+ * @property {string} gitUri - Normalized git URI (e.g., 'owner/repo')
+ * @property {string} name - Display name
+ * @property {string} taskListId - Google Tasks list ID
+ * @property {string} taskListTitle - Task list title
+ * @property {string} accountEmail - Account email
+ * @property {string} createdAt - ISO timestamp
+ * @property {boolean} [current] - Whether this is the current directory's project
+ * @property {{ total: number, pending: number, completed: number }} [taskCounts] - Task counts
+ */
+
+/**
+ * Formats a single project's status for display.
+ * @param {ProjectWithMeta} project - Project with metadata
+ * @param {OutputFormat} format - Output format
+ * @returns {string} Formatted project status
+ */
+export function formatProjectStatus(project, format) {
+  if (format === 'json') {
+    return formatJson(project);
+  }
+
+  if (format === 'minimal') {
+    return `${project.gitUri} -> ${project.taskListTitle}`;
+  }
+
+  const lines = [
+    `Git Repository:  ${project.gitUri}`,
+    `Project Name:    ${project.name}`,
+    `Task List:       ${project.taskListTitle}`,
+    `List ID:         ${project.taskListId}`,
+    `Account:         ${project.accountEmail}`,
+    `Associated:      ${new Date(project.createdAt).toLocaleString()}`,
+  ];
+
+  if (project.taskCounts) {
+    lines.push('');
+    lines.push(`Tasks:           ${project.taskCounts.total} total`);
+    lines.push(`  Pending:       ${project.taskCounts.pending}`);
+    lines.push(`  Completed:     ${project.taskCounts.completed}`);
+  }
+
+  return lines.join('\n');
+}
+
+/**
+ * Formats multiple projects for display.
+ * @param {ProjectWithMeta[]} projects - Array of projects with metadata
+ * @param {OutputFormat} format - Output format
+ * @returns {string} Formatted projects list
+ */
+export function formatProjectsList(projects, format) {
+  if (format === 'json') {
+    return formatJson(projects);
+  }
+
+  if (projects.length === 0) {
+    return 'No projects found.';
+  }
+
+  if (format === 'minimal') {
+    return projects
+      .map((p) => `${p.current ? '* ' : '  '}${p.gitUri} -> ${p.taskListTitle}`)
+      .join('\n');
+  }
+
+  // Table format
+  const rows = projects.map((p) => ({
+    current: p.current ? '*' : '',
+    gitUri: p.gitUri,
+    listTitle: p.taskListTitle,
+    account: p.accountEmail,
+  }));
+
+  return formatTable(rows, ['current', 'gitUri', 'listTitle', 'account'], {
+    current: '',
+    gitUri: 'Git Repository',
+    listTitle: 'Task List',
+    account: 'Account',
+  });
+}

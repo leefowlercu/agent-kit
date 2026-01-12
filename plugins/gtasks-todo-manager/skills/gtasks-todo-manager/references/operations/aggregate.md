@@ -8,6 +8,7 @@
   - [Aggregate Tasks](#aggregate-tasks)
   - [Aggregate Lists](#aggregate-lists)
   - [Summary Statistics](#summary-statistics)
+- [Project Filtering](#project-filtering)
 - [Filtering Options](#filtering-options)
 - [Common Patterns](#common-patterns)
 
@@ -120,6 +121,52 @@ personal  active  3      18       10    1
 work      active  2      14       5     2
 ```
 
+## Project Filtering
+
+The `--project` flag allows you to filter aggregate results to project-related data.
+
+### Project Tasks
+
+Filter to only show tasks from the current directory's associated project list:
+
+```bash
+# Tasks from current project only
+node scripts/cli.js aggregate tasks --project
+
+# With other filters
+node scripts/cli.js aggregate tasks --project --status needsAction
+node scripts/cli.js aggregate tasks --project --due-before 2024-03-25
+```
+
+**Behavior**:
+- Requires the current directory to be a git repository with an associated project
+- Filters to only the project's task list in the project's account
+- Can be combined with other filters (status, due dates, etc.)
+- Returns an error if no project association exists
+
+### Project Lists
+
+Filter to only show task lists that match the `[Project] *` naming pattern:
+
+```bash
+# All project-type lists across accounts
+node scripts/cli.js aggregate lists --project
+
+# With task counts
+node scripts/cli.js aggregate lists --project --with-counts
+```
+
+**Example output**:
+```
+Title                                  Account    Tasks
+-------------------------------------  ---------  -----
+[Project] leefowlercu/agent-kit        personal   17
+[Project] hashicorp/terraform          work       8
+[Project] myorg/api-server             work       23
+
+[INFO] Showing 3 list(s) across 2 account(s)
+```
+
 ## Filtering Options
 
 ### Task Filters
@@ -131,6 +178,7 @@ work      active  2      14       5     2
 | `--due-before <date>` | Tasks due before date (YYYY-MM-DD) |
 | `--due-after <date>` | Tasks due after date (YYYY-MM-DD) |
 | `--accounts <emails>` | Comma-separated list of account emails |
+| `--project` | Filter to current git project's task list |
 | `--limit <n>` | Maximum number of results |
 
 ### List Filters
@@ -139,6 +187,7 @@ work      active  2      14       5     2
 |--------|-------------|
 | `--with-counts` | Include task count for each list |
 | `--accounts <emails>` | Comma-separated list of account emails |
+| `--project` | Only show `[Project] *` pattern lists |
 
 ### Output Formats
 

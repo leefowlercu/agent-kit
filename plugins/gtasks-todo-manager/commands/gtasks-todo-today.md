@@ -20,6 +20,7 @@ The user may provide information in any format. Extract whatever preferences are
 - **Number of tasks**: How many tasks to suggest (default: 3)
 - **Account filter**: Which Google account(s) to pull from (optional)
 - **List filter**: Which task list(s) to pull from (optional)
+- **Project context**: Whether to suggest from the current project's list (optional)
 
 **Examples of valid inputs**:
 - `5 tasks`
@@ -29,12 +30,26 @@ The user may provide information in any format. Extract whatever preferences are
 - `3 tasks from my personal gmail`
 - `show me 5 from the Work Tasks list in my work account`
 - `what should I focus on from my personal account?`
+- `for this project`
+- `5 project tasks`
+- `what should I work on for the project`
+- `project priorities`
+- `from the project list`
 
 Parse number references like "5 tasks", "give me 10", "show 3" to determine the count.
 
 Parse account references like "my work account", "personal gmail", "user@gmail.com" to identify account filters.
 
 Parse list references like "from Shopping", "in the Work Tasks list" to identify list filters.
+
+**Project context indicators**:
+- "for this project"
+- "from project list"
+- "project tasks"
+- "project priorities"
+- "for the project"
+
+When project context is detected and the current directory is a git repository with an associated project, suggest tasks only from the project's task list.
 
 ### When No Arguments Are Provided
 

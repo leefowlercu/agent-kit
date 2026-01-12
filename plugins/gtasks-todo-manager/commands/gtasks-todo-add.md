@@ -19,6 +19,7 @@ The user may provide information in any format - structured flags, natural langu
 
 - **Task title**: The core task description (required)
 - **Task list**: Which list to add to (optional)
+- **Project context**: Whether to add to the current project's list (optional)
 - **Due date**: When the task is due (optional)
 - **Notes**: Additional details (optional)
 - **Account**: Which Google account to use (optional)
@@ -31,6 +32,18 @@ The user may provide information in any format - structured flags, natural langu
 - `Add "Call dentist" to my personal account with a note about the annual checkup`
 - `Submit the quarterly report to the Work list, due next Monday`
 - `Pick up dry cleaning - add to my shopping list on my work gmail`
+- `Fix authentication bug to the project list`
+- `Update API docs for this project due Friday`
+- `Add unit tests in the project`
+
+**Project context indicators**:
+- "to the project list"
+- "for this project"
+- "in the project"
+- "to my project tasks"
+- "project task"
+
+When project context is detected and the current directory is a git repository with an associated project, route the task to the project's task list.
 
 Parse natural language dates like "tomorrow", "next Friday", "end of month" into actual dates.
 

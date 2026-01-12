@@ -2,12 +2,18 @@
 
 Manages to-dos across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.2.6
+**Version**: 0.3.0
 **License**: MIT
 
 ## Overview
 
 This plugin provides slash commands and skills that enable Claude Code agents to manage to-do items across multiple Google accounts through the Google Tasks API. It supports personal Gmail accounts, Google Workspace accounts, and organization-provisioned accounts with unified task management capabilities.
+
+Key features include:
+- Multi-account support with unified views
+- Project task lists tied to git repositories
+- Cross-workstation project sync
+- Natural language task management
 
 ## Installation
 
@@ -61,6 +67,8 @@ Commands support natural language input - no need for structured flags.
 | `/gtasks-todo-today` | Suggest prioritized tasks to focus on today |
 | `/gtasks-lists` | List and manage task lists |
 | `/gtasks-summary` | Show summary statistics across all accounts |
+| `/gtasks-project-init` | Initialize a project task list for the current git repository |
+| `/gtasks-project-status` | Show project association for current directory |
 
 **Example invocations:**
 
@@ -74,6 +82,28 @@ Commands support natural language input - no need for structured flags.
 /gtasks-todo-today 5 tasks from my work account
 /gtasks-lists create a new list called Projects
 /gtasks-lists rename Shopping to Groceries
+```
+
+**Project-aware commands:**
+
+```
+# Initialize a project list for the current git repo
+/gtasks-project-init
+/gtasks-project-init called backend-api in my work account
+
+# Check project status
+/gtasks-project-status
+
+# Add tasks to the project list
+/gtasks-todo-add Fix auth bug to the project list
+/gtasks-todo-add Update docs for this project due Friday
+
+# List project tasks
+/gtasks-todo-list project tasks
+/gtasks-todo-list pending project tasks
+
+# Get project suggestions
+/gtasks-todo-today for this project
 ```
 
 ### Skills
@@ -107,5 +137,6 @@ Run `/gtasks-setup` and the skill will guide you through:
 - [Setup & Account Management](skills/gtasks-todo-manager/references/operations/setup.md)
 - [Task Operations](skills/gtasks-todo-manager/references/operations/tasks.md)
 - [Task List Operations](skills/gtasks-todo-manager/references/operations/tasklists.md)
+- [Project Operations](skills/gtasks-todo-manager/references/operations/projects.md)
 - [Aggregation & Summary](skills/gtasks-todo-manager/references/operations/aggregate.md)
 - [Task Suggestions](skills/gtasks-todo-manager/references/operations/suggestions.md)

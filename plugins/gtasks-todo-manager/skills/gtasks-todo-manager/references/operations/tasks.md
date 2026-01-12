@@ -14,6 +14,7 @@
   - [Delete Tasks](#delete-tasks)
   - [Move Tasks Between Lists](#move-tasks-between-lists)
 - [Working with Due Dates](#working-with-due-dates)
+- [Project-Aware Operations](#project-aware-operations)
 - [Common Patterns](#common-patterns)
 
 ## Purpose
@@ -300,6 +301,46 @@ node scripts/cli.js aggregate tasks --due-before $(date +%Y-%m-%d) --status need
 - Due dates are stored as dates only (no time component)
 - Google Tasks shows due dates in the user's timezone
 - API returns dates in RFC 3339 format (UTC)
+
+## Project-Aware Operations
+
+When working in a git repository with an associated project list (see Projects operation), you can use the `--project` flag to automatically target the project's task list.
+
+### Create Task in Project
+
+```bash
+# Add to current project's list
+node scripts/cli.js tasks create "Fix authentication bug" --project
+
+# With due date and notes
+node scripts/cli.js tasks create "Update API documentation" --project \
+  --due 2024-03-25 \
+  --notes "Include new endpoints"
+```
+
+### List Project Tasks
+
+```bash
+# List tasks from current project
+node scripts/cli.js tasks list --project
+
+# With filters
+node scripts/cli.js tasks list --project --hide-completed
+node scripts/cli.js tasks list --project --due-before 2024-03-30
+```
+
+### Project Flag Behavior
+
+- The `--project` flag looks up the current directory's git remote
+- Finds the associated task list from the local config
+- Uses the account that owns the project list
+- Fails with an error if no project association exists
+
+**Natural language equivalents** (for use with skill):
+- "to the project list"
+- "for this project"
+- "in the project"
+- "project tasks"
 
 ## Common Patterns
 

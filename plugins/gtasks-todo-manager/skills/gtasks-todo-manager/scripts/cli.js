@@ -10,6 +10,7 @@
  *   tasklists  - Manage task lists
  *   tasks      - Manage individual tasks
  *   aggregate  - Cross-account views and aggregation
+ *   projects   - Manage project task list associations
  *
  * Run with --help for detailed usage information.
  */
@@ -20,6 +21,7 @@ import { accountsCommand } from './commands/accounts.js';
 import { tasklistsCommand } from './commands/tasklists.js';
 import { tasksCommand } from './commands/tasks.js';
 import { aggregateCommand } from './commands/aggregate.js';
+import { projectsCommand } from './commands/projects.js';
 
 program
   .name('gtasks')
@@ -32,6 +34,7 @@ program.addCommand(accountsCommand);
 program.addCommand(tasklistsCommand);
 program.addCommand(tasksCommand);
 program.addCommand(aggregateCommand);
+program.addCommand(projectsCommand);
 
 // Error handling
 program.exitOverride((err) => {

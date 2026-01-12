@@ -109,6 +109,43 @@
           "description": "Path to encryption key file for token storage"
         }
       }
+    },
+    "projects": {
+      "type": "object",
+      "description": "Git repository to Google Tasks list associations. Keys are normalized git URIs (e.g., 'owner/repo' or 'gitlab.com/owner/repo')",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Project association data",
+        "additionalProperties": false,
+        "required": ["name", "taskListId", "taskListTitle", "accountEmail", "createdAt"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Display name for the project (usually the repository name)",
+            "minLength": 1
+          },
+          "taskListId": {
+            "type": "string",
+            "description": "Google Tasks list ID associated with this project",
+            "minLength": 1
+          },
+          "taskListTitle": {
+            "type": "string",
+            "description": "Full title of the Google Tasks list (e.g., '[Project] owner/repo')",
+            "minLength": 1
+          },
+          "accountEmail": {
+            "type": "string",
+            "description": "Google account email that owns the task list",
+            "format": "email"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "ISO 8601 timestamp when this association was created",
+            "format": "date-time"
+          }
+        }
+      }
     }
   }
 }
