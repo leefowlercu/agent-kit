@@ -86,7 +86,7 @@ node cli.js tasklists delete LIST_ID
 node cli.js tasks list "My Tasks"
 
 # Create a task
-node cli.js tasks create "My Tasks" "Buy groceries" --due 2024-03-20
+node cli.js tasks create "Buy groceries" "My Tasks" --due 2024-03-20
 
 # Complete a task
 node cli.js tasks complete "My Tasks" TASK_ID

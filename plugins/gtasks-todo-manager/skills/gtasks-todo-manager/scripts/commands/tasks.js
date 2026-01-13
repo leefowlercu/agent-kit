@@ -245,7 +245,7 @@ tasksCommand
   .command('create')
   .description('Create a new task')
   .argument('<title>', 'Task title')
-  .option('-l, --list <list>', 'Task list ID or title (defaults to "My Tasks")')
+  .argument('[list]', 'Task list ID or title (not required if --project is used)')
   .option('-a, --account <email>', 'Google account email')
   .option('--project', 'Add to the current git project\'s task list')
   .option('-n, --notes <notes>', 'Task notes/description')
@@ -256,15 +256,15 @@ tasksCommand
       .choices(['json', 'table', 'minimal'])
       .default('table')
   )
-  .action(async (title, options) => {
+  .action(async (title, list, options) => {
     try {
       if (!isOAuthConfigured()) {
         error('OAuth not configured. Run "gtasks auth setup" first.');
         process.exit(1);
       }
 
-      if (options.project && options.list) {
-        error('Cannot use both --project and --list. Choose one.');
+      if (options.project && list) {
+        error('Cannot use both --project and a list argument. Choose one.');
         process.exit(1);
       }
 
@@ -280,11 +280,13 @@ tasksCommand
         }
         email = options.account || projectList.accountEmail;
         listId = projectList.listId;
-      } else {
+      } else if (list) {
         email = resolveAccount(options);
         const service = await getTasksService(email);
-        const list = options.list || 'My Tasks';
         listId = await resolveTaskListId(service, list);
+      } else {
+        error('Either specify a task list or use --project flag.');
+        process.exit(1);
       }
 
       const service = await getTasksService(email);

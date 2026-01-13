@@ -52,10 +52,13 @@ node scripts/cli.js tasks list "My Tasks" --format json
 node scripts/cli.js tasks list "My Tasks" --format minimal
 ```
 
-**Filtering options**:
+**Options**:
 
 | Option | Description |
 |--------|-------------|
+| `-a, --account <email>` | Google account email |
+| `-f, --format <format>` | Output format: `json`, `table`, `minimal` |
+| `--project` | Use the current git project's task list |
 | `--hide-completed` | Exclude completed tasks |
 | `--due-before <date>` | Tasks due before date (YYYY-MM-DD) |
 | `--due-after <date>` | Tasks due after date (YYYY-MM-DD) |
@@ -111,30 +114,32 @@ Create a new task in a list:
 
 ```bash
 # Simple task
-node scripts/cli.js tasks create "My Tasks" "Buy groceries"
+node scripts/cli.js tasks create "Buy groceries" "My Tasks"
 
 # Task with notes
-node scripts/cli.js tasks create "My Tasks" "Call dentist" --notes "Schedule annual checkup"
+node scripts/cli.js tasks create "Call dentist" "My Tasks" --notes "Schedule annual checkup"
 
 # Task with due date
-node scripts/cli.js tasks create "My Tasks" "Submit report" --due 2024-03-20
+node scripts/cli.js tasks create "Submit report" "My Tasks" --due 2024-03-20
 
 # Full options
-node scripts/cli.js tasks create "Work" "Prepare presentation" \
+node scripts/cli.js tasks create "Prepare presentation" "Work" \
   --notes "Q1 results for stakeholders" \
   --due 2024-03-25 \
   --account work@company.com \
   --format json
 ```
 
-**Create options**:
+**Options**:
 
 | Option | Description |
 |--------|-------------|
+| `-a, --account <email>` | Google account email |
+| `-f, --format <format>` | Output format: `json`, `table`, `minimal` |
+| `--project` | Add to the current git project's task list |
 | `-n, --notes <text>` | Task description/notes |
 | `-d, --due <date>` | Due date (YYYY-MM-DD) |
 | `-p, --parent <id>` | Parent task ID (creates subtask) |
-| `-a, --account <email>` | Specific account |
 
 **Example output**:
 ```
@@ -151,12 +156,12 @@ Create tasks as children of other tasks:
 node scripts/cli.js tasks list "Project" --format json
 
 # Create subtask
-node scripts/cli.js tasks create "Project" "Design mockups" --parent PARENT_TASK_ID
+node scripts/cli.js tasks create "Design mockups" "Project" --parent PARENT_TASK_ID
 
 # Create multiple subtasks
-node scripts/cli.js tasks create "Project" "Frontend implementation" --parent PARENT_TASK_ID
-node scripts/cli.js tasks create "Project" "Backend API" --parent PARENT_TASK_ID
-node scripts/cli.js tasks create "Project" "Testing" --parent PARENT_TASK_ID
+node scripts/cli.js tasks create "Frontend implementation" "Project" --parent PARENT_TASK_ID
+node scripts/cli.js tasks create "Backend API" "Project" --parent PARENT_TASK_ID
+node scripts/cli.js tasks create "Testing" "Project" --parent PARENT_TASK_ID
 ```
 
 **Subtask behavior**:
@@ -192,13 +197,15 @@ node scripts/cli.js tasks update "My Tasks" TASK_ID \
   --due 2024-03-30
 ```
 
-**Update options**:
+**Options**:
 
 | Option | Description |
 |--------|-------------|
+| `-a, --account <email>` | Google account email |
+| `-f, --format <format>` | Output format: `json`, `table`, `minimal` |
 | `-t, --title <text>` | New title |
 | `-n, --notes <text>` | New notes |
-| `-d, --due <date>` | New due date |
+| `-d, --due <date>` | New due date (YYYY-MM-DD) |
 | `--clear-due` | Remove due date |
 | `--clear-notes` | Remove notes |
 
@@ -278,7 +285,7 @@ New ID: bmV3VGFza0lkNzg5
 Due dates are specified in `YYYY-MM-DD` format:
 
 ```bash
-node scripts/cli.js tasks create "My Tasks" "Deadline task" --due 2024-03-20
+node scripts/cli.js tasks create "Deadline task" "My Tasks" --due 2024-03-20
 ```
 
 ### Due Date Queries
@@ -347,9 +354,9 @@ node scripts/cli.js tasks list --project --due-before 2024-03-30
 ### Quick Task Creation
 
 ```bash
-# Alias for quick creation
-alias todo='node /path/to/cli.js tasks create "My Tasks"'
-todo "New task"
+# Alias for quick creation (title only, list defaults or use --project)
+alias todo='node /path/to/cli.js tasks create'
+todo "New task" "My Tasks"
 ```
 
 ### Daily Review
@@ -364,7 +371,7 @@ node scripts/cli.js aggregate tasks --due-before $(date -v+1d +%Y-%m-%d) --statu
 ```bash
 # Create tasks for the week
 for task in "Monday standup" "Wednesday review" "Friday retrospective"; do
-  node scripts/cli.js tasks create "Work" "$task"
+  node scripts/cli.js tasks create "$task" "Work"
 done
 ```
 
