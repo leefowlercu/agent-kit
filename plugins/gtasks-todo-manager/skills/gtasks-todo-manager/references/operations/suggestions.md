@@ -100,7 +100,9 @@ Tasks with no due date. Only include these if not enough prioritized tasks exist
 
 ## Formatting Suggestions
 
-Present the requested number of suggestions (default: 3) with the following context for each:
+Present the requested number of suggestions with the following context for each.
+
+**Default count**: The default number of suggestions is configured in `settings.suggestionsCount` (schema default: 5). If the user does not specify a count, use this configured value.
 
 1. **Task title** (bold)
 2. **Due status**:
@@ -133,12 +135,12 @@ For each task:
 2. Add due today tasks
 3. Add due soon tasks
 4. Fill remaining slots with no-due-date tasks if needed
-5. Return requested count (default: 3)
+5. Return requested count (default from `settings.suggestionsCount`, or 5 if not configured)
 
 ### Step 4: Format Output
 
 ```
-Here are 3 tasks I suggest focusing on today:
+Here are 5 tasks I suggest focusing on today:
 
 1. **Submit quarterly report** (overdue by 1 day)
    - List: Work Tasks | Account: work@company.com
@@ -151,6 +153,14 @@ Here are 3 tasks I suggest focusing on today:
 3. **Review pull request #123** (due in 2 days)
    - List: Development | Account: work@company.com
    - Prioritized because it's due soon
+
+4. **Prepare presentation slides** (due in 4 days)
+   - List: Work Tasks | Account: work@company.com
+   - Prioritized because it's due soon
+
+5. **Buy groceries** (no due date)
+   - List: Shopping | Account: personal@gmail.com
+   - Included to fill remaining suggestions
 ```
 
 ## Handling Edge Cases

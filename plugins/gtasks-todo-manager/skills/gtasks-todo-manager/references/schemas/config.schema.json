@@ -107,6 +107,13 @@
         "encryptionKeyPath": {
           "type": "string",
           "description": "Path to encryption key file for token storage"
+        },
+        "suggestionsCount": {
+          "type": "integer",
+          "description": "Default number of tasks to suggest for today focus",
+          "minimum": 1,
+          "maximum": 20,
+          "default": 5
         }
       }
     },

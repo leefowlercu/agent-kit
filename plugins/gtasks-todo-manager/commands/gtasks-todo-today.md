@@ -17,7 +17,7 @@ If `$ARGUMENTS` is not empty, intelligently parse the provided text to determine
 
 The user may provide information in any format. Extract whatever preferences are present:
 
-- **Number of tasks**: How many tasks to suggest (default: 3)
+- **Number of tasks**: How many tasks to suggest (default from config: 5)
 - **Account filter**: Which Google account(s) to pull from (optional)
 - **List filter**: Which task list(s) to pull from (optional)
 - **Project context**: Whether to suggest from the current project's list (optional)
@@ -53,7 +53,7 @@ When project context is detected and the current directory is a git repository w
 
 ### When No Arguments Are Provided
 
-If `$ARGUMENTS` is empty, invoke the skill to suggest 3 prioritized tasks across all accounts and lists.
+If `$ARGUMENTS` is empty, invoke the skill to suggest prioritized tasks across all accounts and lists. Use the configured default from `settings.suggestionsCount` (default: 5 if not configured).
 
 ## Invoke the Skill
 
