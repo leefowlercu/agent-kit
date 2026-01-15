@@ -23,6 +23,8 @@ The CLI is located in the `scripts` subdirectory of this skill's base directory.
 
 ## Before Any Operation
 
+### 1. Verify Authentication
+
 Always verify authentication first:
 
 ```bash
@@ -31,10 +33,23 @@ node scripts/cli.js auth validate
 
 If this command fails, proceed to the **Setup** operation.
 
+### 2. Check for Config Migrations
+
+After authentication succeeds, check if the config needs migration:
+
+```bash
+cat ~/.config/gtasks-todo-manager/config.json | jq -r '.schemaVersion // "unversioned"'
+```
+
+**Current schema version**: `0.3.2`
+
+If the result is `unversioned` or an older version, proceed to the **Migrations** operation before continuing with the requested operation.
+
 ## Operations
 
 | User Intent | Operation Reference |
 |-------------|---------------------|
+| Migrate config schema after skill update | [Migrations](references/operations/migrations.md) |
 | Set up OAuth, add/remove accounts, fix auth issues | [Setup](references/operations/setup.md) |
 | Create, update, complete, delete, or move tasks | [Tasks](references/operations/tasks.md) |
 | Create, rename, delete, or list task lists | [Task Lists](references/operations/tasklists.md) |

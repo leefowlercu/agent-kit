@@ -6,6 +6,11 @@
   "additionalProperties": false,
   "required": ["oauth", "accounts"],
   "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Schema version for migration tracking",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
     "oauth": {
       "type": "object",
       "description": "OAuth 2.0 client credentials from Google Cloud Console",
