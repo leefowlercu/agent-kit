@@ -5,7 +5,7 @@
  */
 
 /**
- * @typedef {'json' | 'table' | 'minimal'} OutputFormat
+ * @typedef {'json' | 'table' | 'tree' | 'minimal'} OutputFormat
  */
 
 /**
@@ -63,7 +63,7 @@ export function formatTable(rows, columns, headers = {}) {
  * @param {object[]} tasks - Flat array of tasks with id and parent fields
  * @returns {object[]} Array of root task nodes with children arrays
  */
-function buildTaskTree(tasks) {
+export function buildTaskTree(tasks) {
   const taskMap = new Map();
   const roots = [];
 
@@ -137,6 +137,60 @@ function formatTasksAsTree(tasks) {
 }
 
 /**
+ * Recursively formats a task node with optional due date for extended tree output.
+ * @param {object} node - Task node with children array
+ * @param {string} prefix - Current line prefix for indentation
+ * @param {boolean} isLast - Whether this is the last sibling
+ * @param {boolean} isRoot - Whether this is a root-level task
+ * @param {boolean} showDue - Whether to display due dates
+ * @returns {string[]} Array of formatted lines
+ */
+function formatTaskNodeExtended(node, prefix = '', isLast = true, isRoot = true, showDue = false) {
+  const status = node.status === 'completed' ? '[x]' : '[ ]';
+  const dueStr = showDue && node.due ? ` (due: ${node.due.split('T')[0]})` : '';
+  const lines = [];
+
+  if (isRoot) {
+    lines.push(`${status} ${node.title}${dueStr}`);
+  } else {
+    const connector = isLast ? '└── ' : '├── ';
+    lines.push(`${prefix}${connector}${status} ${node.title}${dueStr}`);
+  }
+
+  const childPrefix = isRoot ? '    ' : prefix + (isLast ? '    ' : '│   ');
+
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i];
+    const isLastChild = i === node.children.length - 1;
+    lines.push(...formatTaskNodeExtended(child, childPrefix, isLastChild, false, showDue));
+  }
+
+  return lines;
+}
+
+/**
+ * Formats tasks as an extended tree structure with options.
+ * @param {object[]} tasks - Flat array of tasks
+ * @param {object} options - Formatting options
+ * @param {boolean} [options.showDue=false] - Whether to show due dates
+ * @returns {string} Tree-formatted task list
+ */
+function formatTasksAsTreeExtended(tasks, options = {}) {
+  if (tasks.length === 0) {
+    return 'No tasks found.';
+  }
+
+  const roots = buildTaskTree(tasks);
+  const lines = [];
+
+  for (const root of roots) {
+    lines.push(...formatTaskNodeExtended(root, '', true, true, options.showDue));
+  }
+
+  return lines.join('\n');
+}
+
+/**
  * Formats a single task for display.
  * @param {import('../../references/schemas/task.schema.json').Task} task - Task object
  * @param {OutputFormat} format - Output format
@@ -176,11 +230,17 @@ export function formatTask(task, format) {
  * Formats a list of tasks for display.
  * @param {import('../../references/schemas/task.schema.json').Task[]} tasks - Array of tasks
  * @param {OutputFormat} format - Output format
+ * @param {object} [options] - Additional formatting options
+ * @param {boolean} [options.showDue=false] - Whether to show due dates in tree format
  * @returns {string} Formatted tasks
  */
-export function formatTasks(tasks, format) {
+export function formatTasks(tasks, format, options = {}) {
   if (format === 'json') {
     return formatJson(tasks);
+  }
+
+  if (format === 'tree') {
+    return formatTasksAsTreeExtended(tasks, options);
   }
 
   if (format === 'minimal') {

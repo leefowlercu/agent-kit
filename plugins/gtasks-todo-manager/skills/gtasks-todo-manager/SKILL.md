@@ -23,6 +23,8 @@ The CLI is located in the `scripts` subdirectory of this skill's base directory.
 
 ## Before Any Operation
 
+**IMPORTANT**: Before performing any operation with this skill, you MUST complete the following checks in order:
+
 ### 1. Verify Authentication
 
 Always verify authentication first:
@@ -66,8 +68,8 @@ If the result is `unversioned` or an older version, proceed to the **Migrations*
 | **Authentication** | OAuth setup, credential validation, token refresh |
 | **Account Management** | Add, remove, list accounts; set default; check status |
 | **Task Lists** | List, create, rename, delete task lists |
-| **Tasks** | List, create, update, complete, delete, move tasks |
-| **Subtasks** | Create tasks as children of parent tasks |
+| **Tasks** | List, create, update, complete, delete, move, reparent tasks |
+| **Subtasks** | Create, reparent, view hierarchy, move with subtasks |
 | **Cross-Account** | Aggregate views, filter by account, summary statistics |
 | **Task Suggestions** | Prioritized task suggestions for daily focus |
 | **Projects** | Associate task lists with git repos, cross-workstation sync |

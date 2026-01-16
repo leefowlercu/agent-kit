@@ -2,7 +2,7 @@
 
 Manages to-do items across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.2.6
+**Version**: 0.4.0
 
 ## Overview
 
@@ -11,8 +11,11 @@ This skill enables Claude Code agents to manage Google Tasks across multiple acc
 Key features:
 - Multi-account support with secure OAuth 2.0 authentication
 - Task and task list management (create, update, delete, complete)
-- Subtask support
+- Enhanced subtask support (create, reparent, tree view, move with subtasks)
+- Project task list associations for git repositories
 - Cross-account aggregation and filtering
+- Prioritized task suggestions for daily focus
+- Config schema migrations for seamless upgrades
 - BYOC (Bring Your Own Credentials) security model
 
 ## Requirements
@@ -64,6 +67,9 @@ node cli.js accounts add
 
 # Remove account
 node cli.js accounts remove user@gmail.com
+
+# Set default account
+node cli.js accounts default user@gmail.com
 ```
 
 ### Task Lists
@@ -75,6 +81,9 @@ node cli.js tasklists list
 # Create a task list
 node cli.js tasklists create "Work Projects"
 
+# Rename a task list
+node cli.js tasklists rename LIST_ID "New Name"
+
 # Delete a task list
 node cli.js tasklists delete LIST_ID
 ```
@@ -85,14 +94,59 @@ node cli.js tasklists delete LIST_ID
 # List tasks
 node cli.js tasks list "My Tasks"
 
+# List tasks in tree format (shows hierarchy)
+node cli.js tasks list "My Tasks" --format tree
+
+# List tasks with due dates in tree format
+node cli.js tasks list "My Tasks" --format tree --show-due
+
 # Create a task
 node cli.js tasks create "Buy groceries" "My Tasks" --due 2024-03-20
+
+# Create a subtask
+node cli.js tasks create "Buy milk" "My Tasks" --parent PARENT_TASK_ID
+
+# Update a task
+node cli.js tasks update "My Tasks" TASK_ID --title "New title" --due 2024-03-25
+
+# Reparent a task (change parent)
+node cli.js tasks reparent "My Tasks" TASK_ID NEW_PARENT_ID
+node cli.js tasks reparent "My Tasks" TASK_ID --root
+
+# Change parent via update
+node cli.js tasks update "My Tasks" TASK_ID --parent NEW_PARENT_ID
+node cli.js tasks update "My Tasks" TASK_ID --clear-parent
 
 # Complete a task
 node cli.js tasks complete "My Tasks" TASK_ID
 
 # Move task between lists
 node cli.js tasks move "My Tasks" TASK_ID "Archive"
+
+# Move task with all subtasks
+node cli.js tasks move "My Tasks" TASK_ID "Archive" --with-subtasks
+```
+
+### Project Task Lists
+
+Associate task lists with git repositories for project-specific task management:
+
+```bash
+# Initialize project list for current git repo
+node cli.js projects init
+
+# Show project association for current directory
+node cli.js projects status
+
+# List all project associations
+node cli.js projects list
+
+# Remove project association
+node cli.js projects unlink
+
+# Use project list in task commands
+node cli.js tasks list --project
+node cli.js tasks create "Fix bug" --project
 ```
 
 ### Cross-Account Operations
@@ -103,6 +157,9 @@ node cli.js aggregate tasks
 
 # View summary statistics
 node cli.js aggregate summary
+
+# Filter by status
+node cli.js aggregate tasks --status needsAction
 ```
 
 ## CLI Reference
@@ -134,10 +191,17 @@ Commands:
     get       Get task details
     create    Create a new task
     update    Update a task
+    reparent  Change task's parent relationship
     complete  Mark task as completed
     uncomplete Mark task as not completed
     delete    Delete a task
     move      Move task to another list
+
+  projects    Manage project task list associations
+    init      Initialize project list for current git repo
+    status    Show project association
+    list      List all project associations
+    unlink    Remove project association
 
   aggregate   Cross-account views
     tasks     List tasks across all accounts
@@ -146,7 +210,7 @@ Commands:
 
 Global Options:
   -a, --account <email>  Specify Google account
-  -f, --format <format>  Output format (json, table, minimal)
+  -f, --format <format>  Output format (json, table, tree, minimal)
   -h, --help             Show help
   -V, --version          Show version
 ```
@@ -170,7 +234,9 @@ skills/gtasks-todo-manager/
 │   │   ├── tasks.md             # Task CRUD operations
 │   │   ├── tasklists.md         # Task list management
 │   │   ├── aggregate.md         # Cross-account views
-│   │   └── suggestions.md       # Task prioritization
+│   │   ├── suggestions.md       # Task prioritization
+│   │   ├── projects.md          # Git project associations
+│   │   └── migrations.md        # Config schema migrations
 │   ├── api/
 │   │   └── google-tasks-api.md
 │   └── schemas/
@@ -183,13 +249,15 @@ skills/gtasks-todo-manager/
     │   ├── config-manager.js
     │   ├── token-manager.js
     │   ├── google-client.js
+    │   ├── git-utils.js
     │   └── output.js
     └── commands/
         ├── auth.js
         ├── accounts.js
         ├── tasklists.js
         ├── tasks.js
-        └── aggregate.js
+        ├── aggregate.js
+        └── projects.js
 ```
 
 ## Troubleshooting
@@ -216,6 +284,15 @@ Another application is using port 3000. Either close it or use a different port:
 ```bash
 node cli.js auth setup --redirect-uri http://localhost:3001/oauth/callback
 ```
+
+### "Config migration required"
+
+After upgrading, you may need to migrate the config schema:
+```bash
+cat ~/.config/gtasks-todo-manager/config.json | jq -r '.schemaVersion'
+```
+
+If the version is outdated, the skill will guide you through migration. See the [Migrations](references/operations/migrations.md) documentation.
 
 ## License
 

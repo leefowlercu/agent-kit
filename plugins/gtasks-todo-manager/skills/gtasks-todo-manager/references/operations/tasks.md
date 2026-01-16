@@ -9,6 +9,7 @@
   - [Get Task Details](#get-task-details)
   - [Create Tasks](#create-tasks)
   - [Create Subtasks](#create-subtasks)
+  - [Managing Subtasks](#managing-subtasks)
   - [Update Tasks](#update-tasks)
   - [Complete and Uncomplete Tasks](#complete-and-uncomplete-tasks)
   - [Delete Tasks](#delete-tasks)
@@ -169,6 +170,97 @@ node scripts/cli.js tasks create "Testing" "Project" --parent PARENT_TASK_ID
 - Completing parent does NOT complete subtasks
 - Subtasks can have their own due dates
 - Maximum nesting depth is determined by Google Tasks
+
+### Managing Subtasks
+
+#### Viewing Subtask Hierarchies
+
+Use tree format to visualize parent-child relationships:
+
+```bash
+# Tree view shows hierarchy with ASCII art
+node scripts/cli.js tasks list "My Tasks" --format tree
+
+# Tree view with due dates
+node scripts/cli.js tasks list "My Tasks" --format tree --show-due
+
+# JSON output includes parent field for each task
+node scripts/cli.js tasks list "My Tasks" --format json | jq '.[] | {id, title, parent}'
+```
+
+**Tree output example**:
+```
+[ ] Plan project
+    ├── [ ] Design mockups
+    ├── [x] Create wireframes
+    └── [ ] Review with team
+        └── [ ] Schedule meeting
+[ ] Buy groceries
+    ├── [ ] Milk
+    └── [ ] Bread
+```
+
+#### Reparenting Tasks
+
+Change a task's parent relationship within the same list:
+
+```bash
+# Make a task a subtask of another task
+node scripts/cli.js tasks update "My Tasks" TASK_ID --parent PARENT_TASK_ID
+
+# Make a subtask a root-level task
+node scripts/cli.js tasks update "My Tasks" TASK_ID --clear-parent
+
+# Dedicated reparent command with visual feedback
+node scripts/cli.js tasks reparent "My Tasks" TASK_ID NEW_PARENT_ID
+node scripts/cli.js tasks reparent "My Tasks" TASK_ID --root
+```
+
+**Reparenting constraints**:
+- Parent task must exist in the same list
+- Cannot create circular references (task cannot be its own ancestor)
+- Completed and hidden tasks cannot be nested as subtasks
+- Use `tasks.move()` API internally (not `tasks.patch()`)
+
+#### Moving Tasks with Subtasks
+
+When moving tasks between lists, subtasks require special handling:
+
+```bash
+# Move a task without subtasks (subtasks become orphaned root tasks)
+node scripts/cli.js tasks move "Source" TASK_ID "Destination"
+
+# Move a task with all its subtasks preserved
+node scripts/cli.js tasks move "Source" TASK_ID "Destination" --with-subtasks
+
+# Force move without confirmation prompt
+node scripts/cli.js tasks move "Source" TASK_ID "Destination" --force
+```
+
+**Move behavior**:
+- Without `--with-subtasks`: Only specified task moves; subtasks become root-level in source list
+- With `--with-subtasks`: Task and all descendants move, hierarchy preserved in destination
+- Tasks get new IDs in destination list
+- Cannot move between different Google accounts
+
+**Orphan warning**: When moving a task that has subtasks without `--with-subtasks`, you'll see a warning:
+```
+[WARN] Task "Project Plan" has 3 subtask(s):
+  - Design mockups
+  - Implementation
+  - Testing
+[WARN] These subtasks will become root-level tasks in the source list.
+[INFO] Use --with-subtasks to move them together, or --force to proceed.
+Continue without subtasks? (y/N):
+```
+
+#### Best Practices
+
+1. **Planning hierarchies**: Create parent tasks first, then add subtasks with `--parent`
+2. **Checking relationships**: Use `--format json` to inspect parent fields programmatically
+3. **Bulk reparenting**: Use shell scripting with JSON output for batch operations
+4. **Cross-list moves**: Always use `--with-subtasks` unless intentionally splitting hierarchy
+5. **Avoiding orphans**: Check for subtasks before deleting parent tasks
 
 ### Update Tasks
 

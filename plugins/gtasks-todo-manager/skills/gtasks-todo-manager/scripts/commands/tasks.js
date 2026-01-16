@@ -13,6 +13,7 @@
  */
 
 import { Command, Option } from 'commander';
+import { createInterface } from 'node:readline';
 
 import {
   getAccount,
@@ -25,6 +26,7 @@ import { getTasksService } from '../lib/google-client.js';
 import {
   success,
   error,
+  warn,
   info,
   formatTasks,
   formatTask,
@@ -112,6 +114,86 @@ async function resolveTaskListId(service, listIdOrTitle) {
 }
 
 /**
+ * Fetches all tasks from a task list.
+ * @param {import('@googleapis/tasks').tasks_v1.Tasks} service - Tasks service
+ * @param {string} listId - Task list ID
+ * @returns {Promise<object[]>} Array of all tasks
+ */
+async function fetchAllTasks(service, listId) {
+  const allTasks = [];
+  let pageToken;
+
+  do {
+    const response = await service.tasks.list({
+      tasklist: listId,
+      maxResults: 100,
+      showCompleted: true,
+      showHidden: true,
+      pageToken,
+    });
+
+    if (response.data.items) {
+      allTasks.push(...response.data.items);
+    }
+
+    pageToken = response.data.nextPageToken;
+  } while (pageToken);
+
+  return allTasks;
+}
+
+/**
+ * Finds all descendant tasks of a given task.
+ * @param {object[]} allTasks - All tasks in the list
+ * @param {string} taskId - Task ID to find descendants for
+ * @returns {object[]} Array of descendant tasks
+ */
+function findAllDescendants(allTasks, taskId) {
+  const descendants = [];
+  const toProcess = [taskId];
+
+  while (toProcess.length > 0) {
+    const currentId = toProcess.pop();
+    const children = allTasks.filter((t) => t.parent === currentId);
+    for (const child of children) {
+      descendants.push(child);
+      toProcess.push(child.id);
+    }
+  }
+
+  return descendants;
+}
+
+/**
+ * Finds direct child tasks of a given task.
+ * @param {object[]} allTasks - All tasks in the list
+ * @param {string} parentId - Parent task ID
+ * @returns {object[]} Array of child tasks
+ */
+function findDirectChildren(allTasks, parentId) {
+  return allTasks.filter((t) => t.parent === parentId);
+}
+
+/**
+ * Prompts the user for confirmation.
+ * @param {string} message - Prompt message
+ * @returns {Promise<boolean>} True if user confirms
+ */
+async function promptConfirm(message) {
+  const rl = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(`${message} (y/N): `, (answer) => {
+      rl.close();
+      resolve(answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes');
+    });
+  });
+}
+
+/**
  * List subcommand - List tasks in a task list.
  */
 tasksCommand
@@ -122,9 +204,10 @@ tasksCommand
   .option('--project', 'Use the current git project\'s task list')
   .addOption(
     new Option('-f, --format <format>', 'Output format')
-      .choices(['json', 'table', 'minimal'])
+      .choices(['json', 'table', 'tree', 'minimal'])
       .default('table')
   )
+  .option('--show-due', 'Show due dates in tree format')
   .option('--show-completed', 'Include completed tasks', true)
   .option('--hide-completed', 'Exclude completed tasks')
   .option('--due-before <date>', 'Filter tasks due before date (YYYY-MM-DD)')
@@ -195,7 +278,7 @@ tasksCommand
         return;
       }
 
-      console.log(formatTasks(allTasks, options.format));
+      console.log(formatTasks(allTasks, options.format, { showDue: options.showDue }));
     } catch (err) {
       error(`Failed to list tasks: ${err.message}`);
       process.exit(1);
@@ -342,6 +425,8 @@ tasksCommand
   .option('-d, --due <date>', 'New due date (YYYY-MM-DD)')
   .option('--clear-due', 'Clear the due date')
   .option('--clear-notes', 'Clear the notes')
+  .option('-p, --parent <task-id>', 'Set new parent task ID (make subtask)')
+  .option('--clear-parent', 'Remove parent (make root-level task)')
   .addOption(
     new Option('-f, --format <format>', 'Output format')
       .choices(['json', 'table', 'minimal'])
@@ -353,6 +438,53 @@ tasksCommand
       const service = await getTasksService(email);
       const listId = await resolveTaskListId(service, list);
 
+      // Validate parent options are mutually exclusive
+      if (options.parent && options.clearParent) {
+        error('Cannot use both --parent and --clear-parent.');
+        process.exit(1);
+      }
+
+      // Handle parent change using tasks.move() (not patch)
+      let parentChanged = false;
+      if (options.parent || options.clearParent) {
+        // Validate self-reference
+        if (options.parent === taskId) {
+          error('Cannot set a task as its own parent.');
+          process.exit(1);
+        }
+
+        // Validate parent exists
+        if (options.parent) {
+          try {
+            await service.tasks.get({
+              tasklist: listId,
+              task: options.parent,
+            });
+          } catch (err) {
+            if (err.code === 404) {
+              error(`Parent task not found: ${options.parent}`);
+              process.exit(1);
+            }
+            throw err;
+          }
+        }
+
+        // Use tasks.move() to change parent
+        const moveParams = {
+          tasklist: listId,
+          task: taskId,
+        };
+
+        if (options.parent) {
+          moveParams.parent = options.parent;
+        }
+        // If clearParent, omit parent param to move to root level
+
+        await service.tasks.move(moveParams);
+        parentChanged = true;
+      }
+
+      // Build patch request for other fields
       const requestBody = {};
 
       if (options.title) {
@@ -371,16 +503,28 @@ tasksCommand
         requestBody.due = null;
       }
 
-      if (Object.keys(requestBody).length === 0) {
-        error('No updates specified. Use --title, --notes, --due, --clear-due, or --clear-notes.');
+      // Check if any updates were specified
+      const hasFieldUpdates = Object.keys(requestBody).length > 0;
+      if (!hasFieldUpdates && !parentChanged) {
+        error('No updates specified. Use --title, --notes, --due, --clear-due, --clear-notes, --parent, or --clear-parent.');
         process.exit(1);
       }
 
-      const response = await service.tasks.patch({
-        tasklist: listId,
-        task: taskId,
-        requestBody,
-      });
+      // Only patch if there are non-parent updates
+      let response;
+      if (hasFieldUpdates) {
+        response = await service.tasks.patch({
+          tasklist: listId,
+          task: taskId,
+          requestBody,
+        });
+      } else {
+        // Get updated task info for output
+        response = await service.tasks.get({
+          tasklist: listId,
+          task: taskId,
+        });
+      }
 
       success(`Task updated: ${response.data.title}`);
 
@@ -392,6 +536,140 @@ tasksCommand
         error(`Task not found: ${taskId}`);
       } else {
         error(`Failed to update task: ${err.message}`);
+      }
+      process.exit(1);
+    }
+  });
+
+/**
+ * Reparent subcommand - Change a task's parent relationship.
+ */
+tasksCommand
+  .command('reparent')
+  .description('Change a task\'s parent relationship within a list')
+  .argument('<list>', 'Task list ID or title')
+  .argument('<task-id>', 'Task ID to reparent')
+  .argument('[new-parent-id]', 'New parent task ID (omit and use --root for root level)')
+  .option('-a, --account <email>', 'Google account email')
+  .option('--root', 'Move task to root level (no parent)')
+  .addOption(
+    new Option('-f, --format <format>', 'Output format')
+      .choices(['json', 'table', 'minimal'])
+      .default('table')
+  )
+  .action(async (list, taskId, newParentId, options) => {
+    try {
+      const email = resolveAccount(options);
+      const service = await getTasksService(email);
+      const listId = await resolveTaskListId(service, list);
+
+      // Validate arguments
+      if (newParentId && options.root) {
+        error('Cannot specify both a parent ID and --root.');
+        process.exit(1);
+      }
+
+      if (!newParentId && !options.root) {
+        error('Specify a new parent ID or use --root to make root-level.');
+        process.exit(1);
+      }
+
+      // Get the task being reparented
+      const taskResponse = await service.tasks.get({
+        tasklist: listId,
+        task: taskId,
+      });
+      const task = taskResponse.data;
+      const oldParentId = task.parent;
+
+      // Validate new parent exists and check for circular reference
+      let newParent = null;
+      if (newParentId) {
+        // Check for self-reference
+        if (newParentId === taskId) {
+          error('Cannot set a task as its own parent.');
+          process.exit(1);
+        }
+
+        // Validate new parent exists
+        try {
+          const parentResponse = await service.tasks.get({
+            tasklist: listId,
+            task: newParentId,
+          });
+          newParent = parentResponse.data;
+        } catch (err) {
+          if (err.code === 404) {
+            error(`Parent task not found: ${newParentId}`);
+            process.exit(1);
+          }
+          throw err;
+        }
+
+        // Check for circular reference - new parent cannot be a descendant
+        const allTasks = await fetchAllTasks(service, listId);
+        const descendants = findAllDescendants(allTasks, taskId);
+        if (descendants.some((d) => d.id === newParentId)) {
+          error('Cannot set a descendant as parent (circular reference).');
+          process.exit(1);
+        }
+      }
+
+      // Show before state
+      info('Before:');
+      if (oldParentId) {
+        try {
+          const oldParent = await service.tasks.get({
+            tasklist: listId,
+            task: oldParentId,
+          });
+          console.log(`  Parent: ${oldParent.data.title}`);
+        } catch {
+          console.log(`  Parent: ${oldParentId}`);
+        }
+      } else {
+        console.log('  Parent: (root level)');
+      }
+      console.log(`  Task: ${task.title}`);
+
+      // Perform the reparent using tasks.move()
+      const moveParams = {
+        tasklist: listId,
+        task: taskId,
+      };
+
+      if (newParentId) {
+        moveParams.parent = newParentId;
+      }
+      // If --root, omit parent param to move to root level
+
+      const response = await service.tasks.move(moveParams);
+
+      // Show after state
+      info('After:');
+      if (newParentId) {
+        console.log(`  Parent: ${newParent.title}`);
+      } else {
+        console.log('  Parent: (root level)');
+      }
+      console.log(`  Task: ${task.title}`);
+
+      success('Task reparented successfully');
+
+      if (options.format === 'json') {
+        console.log(formatJson({
+          task: response.data,
+          oldParentId: oldParentId || null,
+          newParentId: newParentId || null,
+        }));
+      }
+    } catch (err) {
+      if (err.code === 404) {
+        error(`Task not found: ${taskId}`);
+      } else if (err.message?.includes('cannot be nested')) {
+        error('Cannot reparent: completed or hidden tasks cannot be nested.');
+      } else {
+        error(`Failed to reparent task: ${err.message}`);
       }
       process.exit(1);
     }
@@ -511,6 +789,53 @@ tasksCommand
   });
 
 /**
+ * Recursively moves a task and all its subtasks to a new list.
+ * @param {import('@googleapis/tasks').tasks_v1.Tasks} service - Tasks service
+ * @param {string} toListId - Destination list ID
+ * @param {object} task - Task to move
+ * @param {object[]} allTasks - All tasks from source list
+ * @param {string|null} newParentId - Parent ID in destination list
+ * @returns {Promise<{ original: object, new: object }[]>} Array of moved tasks
+ */
+async function moveTaskWithSubtasks(service, toListId, task, allTasks, newParentId = null) {
+  const movedTasks = [];
+
+  // Create task in destination list
+  const insertParams = {
+    tasklist: toListId,
+    requestBody: {
+      title: task.title,
+      notes: task.notes,
+      due: task.due,
+      status: task.status,
+    },
+  };
+
+  if (newParentId) {
+    insertParams.parent = newParentId;
+  }
+
+  const newTask = await service.tasks.insert(insertParams);
+  movedTasks.push({ original: task, new: newTask.data });
+
+  // Find and move children
+  const children = findDirectChildren(allTasks, task.id);
+
+  for (const child of children) {
+    const childMoved = await moveTaskWithSubtasks(
+      service,
+      toListId,
+      child,
+      allTasks,
+      newTask.data.id
+    );
+    movedTasks.push(...childMoved);
+  }
+
+  return movedTasks;
+}
+
+/**
  * Move subcommand - Move a task to a different list.
  */
 tasksCommand
@@ -520,6 +845,8 @@ tasksCommand
   .argument('<task-id>', 'Task ID')
   .argument('<to-list>', 'Destination task list ID or title')
   .option('-a, --account <email>', 'Google account email')
+  .option('--force', 'Skip subtask warning confirmation')
+  .option('--with-subtasks', 'Move all subtasks with the task')
   .addOption(
     new Option('-f, --format <format>', 'Output format')
       .choices(['json', 'table', 'minimal'])
@@ -544,29 +871,100 @@ tasksCommand
         task: taskId,
       });
 
-      // Create in new list
-      const newTask = await service.tasks.insert({
-        tasklist: toListId,
-        requestBody: {
-          title: originalTask.data.title,
-          notes: originalTask.data.notes,
-          due: originalTask.data.due,
-          status: originalTask.data.status,
-        },
-      });
+      // Fetch all tasks to check for subtasks
+      const allTasks = await fetchAllTasks(service, fromListId);
 
-      // Delete from original list
-      await service.tasks.delete({
-        tasklist: fromListId,
-        task: taskId,
-      });
+      // Find all descendants
+      const descendants = findAllDescendants(allTasks, taskId);
 
-      success(`Task moved: ${originalTask.data.title}`);
+      // Handle subtask warning
+      if (descendants.length > 0 && !options.withSubtasks) {
+        warn(`Task "${originalTask.data.title}" has ${descendants.length} subtask(s):`);
+        const toShow = descendants.slice(0, 5);
+        for (const subtask of toShow) {
+          console.log(`  - ${subtask.title}`);
+        }
+        if (descendants.length > 5) {
+          console.log(`  ... and ${descendants.length - 5} more`);
+        }
+        warn('These subtasks will become root-level tasks in the source list.');
+        info('Use --with-subtasks to move them together, or --force to proceed.');
+
+        if (!options.force) {
+          const confirmed = await promptConfirm('Continue without subtasks?');
+          if (!confirmed) {
+            info('Aborted.');
+            return;
+          }
+        }
+      }
+
+      let movedTasks = [];
+      let newTaskId;
+
+      if (options.withSubtasks && descendants.length > 0) {
+        // Move task with all subtasks
+        info(`Moving task and ${descendants.length} subtask(s)...`);
+
+        const taskToMove = allTasks.find((t) => t.id === taskId);
+        movedTasks = await moveTaskWithSubtasks(service, toListId, taskToMove, allTasks, null);
+        newTaskId = movedTasks[0].new.id;
+
+        // Delete all moved tasks from source (children first via reverse order)
+        const tasksToDelete = [taskId, ...descendants.map((d) => d.id)].reverse();
+        for (const id of tasksToDelete) {
+          try {
+            await service.tasks.delete({
+              tasklist: fromListId,
+              task: id,
+            });
+          } catch (err) {
+            // Task might already be deleted if parent was deleted
+            if (err.code !== 404) {
+              warn(`Could not delete task ${id}: ${err.message}`);
+            }
+          }
+        }
+
+        success(`Moved ${movedTasks.length} task(s): ${originalTask.data.title}`);
+        info('Moved tasks:');
+        for (const { original } of movedTasks) {
+          const isRoot = original.id === taskId;
+          console.log(`  ${isRoot ? '' : '  '}- ${original.title}`);
+        }
+      } else {
+        // Move single task only
+        const newTask = await service.tasks.insert({
+          tasklist: toListId,
+          requestBody: {
+            title: originalTask.data.title,
+            notes: originalTask.data.notes,
+            due: originalTask.data.due,
+            status: originalTask.data.status,
+          },
+        });
+
+        await service.tasks.delete({
+          tasklist: fromListId,
+          task: taskId,
+        });
+
+        newTaskId = newTask.data.id;
+        movedTasks = [{ original: originalTask.data, new: newTask.data }];
+        success(`Task moved: ${originalTask.data.title}`);
+      }
 
       if (options.format === 'json') {
-        console.log(formatJson(newTask.data));
-      } else {
-        console.log(`New ID: ${newTask.data.id}`);
+        console.log(formatJson({
+          movedTasks: movedTasks.map(({ original, new: newT }) => ({
+            originalId: original.id,
+            newId: newT.id,
+            title: original.title,
+          })),
+          totalMoved: movedTasks.length,
+        }));
+      } else if (!options.withSubtasks || descendants.length === 0) {
+        console.log(`New ID: ${newTaskId}`);
       }
     } catch (err) {
       if (err.code === 404) {
