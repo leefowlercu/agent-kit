@@ -2,6 +2,8 @@
 
 This directory contains the marketplace configuration for the Claude Plugin Marketplace.
 
+Codex compatibility is maintained separately in `.agents/plugins/marketplace.json` and each plugin's `.codex-plugin/plugin.json`.
+
 ## Files
 
 - `marketplace.json` - The main marketplace catalog that lists all available plugins

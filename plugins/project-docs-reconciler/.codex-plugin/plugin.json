@@ -1,0 +1,25 @@
+{
+  "name": "project-docs-reconciler",
+  "version": "0.2.0",
+  "description": "Provides workflows to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs)",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/project-docs-reconciler",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": ["documentation", "readme", "claude-md", "reconciliation"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Project Docs Reconciler",
+    "shortDescription": "Initialize or reconcile project documentation",
+    "longDescription": "Provides workflows to initialize or reconcile project README.md, CLAUDE.md, and subsystem documentation from live codebase analysis.",
+    "developerName": "Lee Fowler",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/project-docs-reconciler",
+    "defaultPrompt": [
+      "Use project-docs-reconciler to update this project's README.md"
+    ]
+  }
+}

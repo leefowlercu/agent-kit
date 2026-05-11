@@ -1,0 +1,4 @@
+interface:
+  display_name: "CLAUDE.md Reconciler"
+  short_description: "Initialize or update CLAUDE.md"
+  default_prompt: "Use $claude-md to reconcile this project CLAUDE.md."

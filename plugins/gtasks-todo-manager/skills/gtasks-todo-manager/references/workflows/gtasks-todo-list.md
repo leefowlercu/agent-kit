@@ -1,0 +1,90 @@
+# Workflow: List Tasks from Google Tasks
+
+## Expected Input
+
+[filter description]
+
+This skill displays tasks from Google Tasks.
+
+## Argument Handling
+
+### When Request Details Are Provided
+
+If the user provided request details, intelligently parse them to determine what to show.
+
+Use the user's request text as the source of arguments.
+
+The user may provide information in any format. Extract whatever filtering criteria are present:
+
+- **List name**: Specific task list to show (optional)
+- **Project context**: Whether to show from the current project's list (optional)
+- **Account**: Which Google account (optional)
+- **Status filter**: Pending, completed, or all (optional)
+- **Due date filter**: Due before/after a date, overdue, due today/this week (optional)
+- **Scope**: Single list, single account, or all accounts (optional)
+
+**Examples of valid inputs**:
+- `My Tasks`
+- `show me my Shopping list`
+- `--all --hide-completed`
+- `everything due this week`
+- `overdue tasks in my work account`
+- `what's pending in my personal gmail?`
+- `all completed tasks from the Project list`
+- `tasks due tomorrow`
+- `show me what I need to do today across all accounts`
+- `project tasks`
+- `what's in the project list`
+- `show tasks for this project`
+- `pending project tasks due this week`
+- `completed tasks in the project`
+
+**Project context indicators**:
+- "project tasks"
+- "for this project"
+- "in the project"
+- "the project list"
+- "my project"
+
+When project context is detected and the current directory is a git repository with an associated project, filter to show only tasks from the project's task list.
+
+Parse natural language date filters like "due this week", "overdue", "due by Friday".
+
+Parse status filters like "pending", "completed", "not done yet", "finished".
+
+Parse scope like "all accounts", "everywhere", "just my work account".
+
+### When Information is Missing
+
+Use sensible defaults:
+- If no list specified and no "all accounts" indicator: Show aggregated view across all accounts
+- If no status filter: Show pending tasks (hide completed)
+- If no account specified: Include all configured accounts
+
+Only prompt with `AskUserQuestion` if the request is genuinely ambiguous.
+
+### When No Request Details Are Provided
+
+If the user did not provide request details, invoke the skill to show an aggregated view of pending tasks across all accounts.
+
+Then offer: "Would you like to see a specific list, filter by date, or see completed tasks?"
+
+## Invoke the Skill
+
+Invoke the `gtasks-todo-manager` skill with the determined filters.
+
+- For single-list views, use the skill's **Tasks** operation
+- For cross-account views, use the skill's **Aggregation** operation
+
+## Output
+
+Present tasks showing:
+- Status: `[ ]` for pending, `[x]` for completed
+- Task title
+- Due date (if set)
+- List name
+- Account (if showing multiple accounts)
+
+## Follow-up Actions
+
+After listing, offer relevant quick actions based on what was shown.

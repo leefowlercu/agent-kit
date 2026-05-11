@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delete 1Password Secrets"
+  short_description: "Archive or delete 1Password items"
+  default_prompt: "Use $op-secrets-deleter to archive this deprecated 1Password item."

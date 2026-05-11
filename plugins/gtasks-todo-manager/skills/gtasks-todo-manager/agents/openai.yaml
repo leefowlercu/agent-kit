@@ -1,0 +1,4 @@
+interface:
+  display_name: "Google Tasks Todo Manager"
+  short_description: "Manage Google Tasks across accounts"
+  default_prompt: "Use $gtasks-todo-manager to add this task to my default Google Tasks list."

@@ -1,0 +1,25 @@
+{
+  "name": "gtasks-todo-manager",
+  "version": "0.5.0",
+  "description": "Manages to-dos across multiple Google accounts using the Google Tasks API",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/gtasks-todo-manager",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": ["google-tasks", "todo", "task-management", "productivity", "multi-account"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Google Tasks Todo Manager",
+    "shortDescription": "Manage Google Tasks across accounts and projects",
+    "longDescription": "Provides a Google Tasks workflow for setup, account management, task operations, task-list operations, project task lists, summaries, and daily task suggestions.",
+    "developerName": "Lee Fowler",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/gtasks-todo-manager",
+    "defaultPrompt": [
+      "Use gtasks-todo-manager to show today's task suggestions"
+    ]
+  }
+}

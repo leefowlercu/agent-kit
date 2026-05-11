@@ -49,6 +49,22 @@ If the result is `unversioned` or an older version, proceed to the **Migrations*
 
 ## Operations
 
+For common natural-language workflows, read the matching workflow reference first:
+
+| User Intent | Workflow Reference |
+|-------------|--------------------|
+| Set up OAuth credentials and authenticate accounts | [Setup Workflow](references/workflows/gtasks-setup.md) |
+| Add a task | [Add Task Workflow](references/workflows/gtasks-todo-add.md) |
+| Complete a task | [Complete Task Workflow](references/workflows/gtasks-todo-complete.md) |
+| List or filter tasks | [List Tasks Workflow](references/workflows/gtasks-todo-list.md) |
+| Suggest tasks for today | [Today Workflow](references/workflows/gtasks-todo-today.md) |
+| List, create, rename, or delete task lists | [Task Lists Workflow](references/workflows/gtasks-lists.md) |
+| Show cross-account summary statistics | [Summary Workflow](references/workflows/gtasks-summary.md) |
+| Initialize a project task list | [Project Init Workflow](references/workflows/gtasks-project-init.md) |
+| Show project task-list association | [Project Status Workflow](references/workflows/gtasks-project-status.md) |
+
+Use these workflow references to interpret request details, then use the operation references below for the concrete CLI/API behavior.
+
 | User Intent | Operation Reference |
 |-------------|---------------------|
 | Migrate config schema after skill update | [Migrations](references/operations/migrations.md) |

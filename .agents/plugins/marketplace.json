@@ -1,0 +1,56 @@
+{
+  "name": "leefowlercu-agent-kit",
+  "interface": {
+    "displayName": "Lee Fowler Agent Kit"
+  },
+  "plugins": [
+    {
+      "name": "project-docs-reconciler",
+      "source": {
+        "source": "local",
+        "path": "./plugins/project-docs-reconciler"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "op-secrets-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/op-secrets-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Security"
+    },
+    {
+      "name": "gtasks-todo-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/gtasks-todo-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "goalcraft",
+      "source": {
+        "source": "local",
+        "path": "./plugins/goalcraft"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

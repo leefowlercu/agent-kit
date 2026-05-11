@@ -1,0 +1,4 @@
+interface:
+  display_name: "Subsystem Docs Reconciler"
+  short_description: "Create or reconcile subsystem docs"
+  default_prompt: "Use $subsystem-md to document the api subsystem."

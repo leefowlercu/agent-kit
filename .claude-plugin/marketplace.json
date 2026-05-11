@@ -10,22 +10,9 @@
   },
   "plugins": [
     {
-      "name": "agent-skill-builder",
-      "description": "Assists in creating Agent Skills of varying complexity levels (simple, moderate, complex)",
-      "version": "0.1.0",
-      "author": {
-        "name": "Lee Fowler"
-      },
-      "keywords": ["skills", "agents", "development", "scaffolding"],
-      "category": "development",
-      "license": "MIT",
-      "strict": false,
-      "source": "./plugins/agent-skill-builder"
-    },
-    {
       "name": "project-docs-reconciler",
-      "description": "Provides slash commands to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs)",
-      "version": "0.1.1",
+      "description": "Provides skills to initialize or reconcile project documentation (README.md, CLAUDE.md, subsystem docs)",
+      "version": "0.2.0",
       "author": {
         "name": "Lee Fowler"
       },
@@ -36,22 +23,9 @@
       "source": "./plugins/project-docs-reconciler"
     },
     {
-      "name": "spec-interviewer-planner",
-      "description": "Commands for interviewing about specifications and generating implementation plans",
-      "version": "0.1.1",
-      "author": {
-        "name": "Lee Fowler"
-      },
-      "keywords": ["specification", "interview", "planning", "implementation"],
-      "category": "productivity",
-      "license": "MIT",
-      "strict": false,
-      "source": "./plugins/spec-interviewer-planner"
-    },
-    {
       "name": "op-secrets-manager",
       "description": "Skills for interacting with 1Password through the op CLI",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Lee Fowler"
       },
@@ -64,7 +38,7 @@
     {
       "name": "gtasks-todo-manager",
       "description": "Manages to-dos across multiple Google accounts using the Google Tasks API",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "Lee Fowler"
       },

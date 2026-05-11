@@ -1,5 +1,5 @@
 ---
-name: reading-op-secrets
+name: op-secrets-reader
 description: Reads secrets from 1Password using the op CLI. Use when the user needs to retrieve passwords, API keys, credentials, documents, or one-time passwords stored in 1Password. Supports reading items by name or ID, extracting specific fields, listing vault contents, and reading secret references.
 ---
 

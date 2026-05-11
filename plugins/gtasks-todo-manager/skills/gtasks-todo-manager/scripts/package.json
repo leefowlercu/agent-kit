@@ -1,6 +1,6 @@
 {
   "name": "gtasks-todo-manager-cli",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "CLI for managing Google Tasks across multiple accounts",
   "type": "module",
   "main": "cli.js",

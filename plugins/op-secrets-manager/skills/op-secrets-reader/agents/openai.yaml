@@ -1,0 +1,4 @@
+interface:
+  display_name: "Read 1Password Secrets"
+  short_description: "Retrieve secrets from 1Password"
+  default_prompt: "Use $op-secrets-reader to retrieve this credential from 1Password."

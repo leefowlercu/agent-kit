@@ -1,5 +1,5 @@
 ---
-name: creating-op-secrets
+name: op-secrets-creator
 description: Creates secrets in 1Password using the op CLI. Use when the user needs to store new passwords, API keys, login credentials, or secure notes in 1Password. Supports Login, Password, API Credential, and Secure Note item types with optional vault selection and password generation.
 ---
 

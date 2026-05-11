@@ -45,13 +45,13 @@ These are distinct concepts:
 | **Schema version** | When the config file structure changes (new fields, removed fields, restructuring) |
 | **Plugin version** | Any release (features, bug fixes, documentation, migrations) |
 
-The schema version should match the plugin version where the schema change was introduced. For example, if plugin 0.4.0 adds a new config field, the schema version becomes 0.4.0 and the migration is "0.3.2 to 0.4.0".
+The schema version should match the plugin version where the schema change was introduced. For example, if plugin A.B.C adds a new config field, the schema version becomes A.B.C and the migration is "X.Y.Z to A.B.C".
 
 ### Example Workflow
 
-If adding a new `settings.theme` field in plugin version 0.4.0:
+If adding a new `settings.theme` field in plugin version A.B.C:
 
 1. Add `theme` to `config.schema.json` under `settings.properties`
-2. Add migration "0.3.2 to 0.4.0" in `migrations.md`
-3. Update current schema version to `0.4.0` in SKILL.md and migrations.md
-4. Bump plugin version to `0.4.0` in plugin.json, README.md, marketplace.json, and project README.md
+2. Add migration "X.Y.Z to A.B.C" in `migrations.md`
+3. Update current schema version to `A.B.C` in SKILL.md and migrations.md
+4. Bump plugin version to `A.B.C` in plugin.json, README.md, marketplace.json, and project README.md

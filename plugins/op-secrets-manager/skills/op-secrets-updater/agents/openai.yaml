@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update 1Password Secrets"
+  short_description: "Update existing 1Password items"
+  default_prompt: "Use $op-secrets-updater to rotate this password in 1Password."

@@ -1,0 +1,25 @@
+{
+  "name": "op-secrets-manager",
+  "version": "0.2.0",
+  "description": "Skills for interacting with 1Password through the op CLI",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/op-secrets-manager",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": ["1password", "secrets", "credentials", "op", "cli"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "1Password Secrets Manager",
+    "shortDescription": "Read and manage 1Password items through op",
+    "longDescription": "Bundles focused skills for reading, creating, updating, deleting, and archiving 1Password items through the 1Password CLI.",
+    "developerName": "Lee Fowler",
+    "category": "Security",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/op-secrets-manager",
+    "defaultPrompt": [
+      "Use op-secrets-manager to read a 1Password item"
+    ]
+  }
+}

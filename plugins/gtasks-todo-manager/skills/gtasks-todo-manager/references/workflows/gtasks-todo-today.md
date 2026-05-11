@@ -1,0 +1,86 @@
+# Workflow: Today's Task Suggestions
+
+## Expected Input
+
+[options]
+
+This skill suggests prioritized tasks for the user to focus on today.
+
+## Argument Handling
+
+### When Request Details Are Provided
+
+If the user provided request details, intelligently parse them to determine preferences.
+
+Use the user's request text as the source of arguments.
+
+The user may provide information in any format. Extract whatever preferences are present:
+
+- **Number of tasks**: How many tasks to suggest (default from config: 5)
+- **Account filter**: Which Google account(s) to pull from (optional)
+- **List filter**: Which task list(s) to pull from (optional)
+- **Project context**: Whether to suggest from the current project's list (optional)
+
+**Examples of valid inputs**:
+- `5 tasks`
+- `give me 10`
+- `from my work account`
+- `just from Shopping list`
+- `3 tasks from my personal gmail`
+- `show me 5 from the Work Tasks list in my work account`
+- `what should I focus on from my personal account?`
+- `for this project`
+- `5 project tasks`
+- `what should I work on for the project`
+- `project priorities`
+- `from the project list`
+
+Parse number references like "5 tasks", "give me 10", "show 3" to determine the count.
+
+Parse account references like "my work account", "personal gmail", "user@gmail.com" to identify account filters.
+
+Parse list references like "from Shopping", "in the Work Tasks list" to identify list filters.
+
+**Project context indicators**:
+- "for this project"
+- "from project list"
+- "project tasks"
+- "project priorities"
+- "for the project"
+
+When project context is detected and the current directory is a git repository with an associated project, suggest tasks only from the project's task list.
+
+### When No Request Details Are Provided
+
+If the user did not provide request details, invoke the skill to suggest prioritized tasks across all accounts and lists. Use the configured default from `settings.suggestionsCount` (default: 5 if not configured).
+
+## Invoke the Skill
+
+Invoke the `gtasks-todo-manager` skill to suggest tasks for today.
+
+The skill's **Suggestions** operation contains the guidance for:
+
+1. Retrieving pending tasks (optionally filtered by account or list)
+2. Applying prioritization:
+   - Overdue tasks (highest priority)
+   - Tasks due today
+   - Tasks due soon (next 7 days)
+   - Tasks with no due date (if needed)
+3. Returning the requested number of suggestions
+4. Presenting each suggestion with context (title, due status, list, account, why prioritized)
+
+## Output
+
+Present the suggested tasks in a clear format showing:
+
+- Task title
+- Due status (overdue, due today, due soon, no due date)
+- Which list and account it belongs to
+- Why it was prioritized
+
+## Follow-up Actions
+
+After presenting suggestions, offer:
+- "Would you like to complete any of these tasks?"
+- "Would you like to see more suggestions?"
+- "Would you like to add a new task for today?"

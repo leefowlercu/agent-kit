@@ -1,0 +1,25 @@
+{
+  "name": "goalcraft",
+  "version": "0.1.0",
+  "description": "Turns rough drafts into powerful Codex /goal objectives for long-running autonomous work",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/goalcraft",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": ["codex", "goal", "goals", "planning", "execution", "productivity"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Goalcraft",
+    "shortDescription": "Turn rough drafts into powerful Codex goals",
+    "longDescription": "Use Goalcraft to turn a rough draft, vague ambition, or messy task brief into a compact, activation-ready Codex /goal objective with scope, preservation rules, verification gates, done criteria, and stop conditions.",
+    "developerName": "Lee Fowler",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/goalcraft",
+    "defaultPrompt": [
+      "Use $goalcraft to turn this rough draft into an activation-ready Codex /goal objective."
+    ]
+  }
+}

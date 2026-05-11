@@ -2,12 +2,12 @@
 
 Manages to-dos across multiple Google accounts using the Google Tasks API.
 
-**Version**: 0.4.0
+**Version**: 0.5.0
 **License**: MIT
 
 ## Overview
 
-This plugin provides slash commands and skills that enable Claude Code agents to manage to-do items across multiple Google accounts through the Google Tasks API. It supports personal Gmail accounts, Google Workspace accounts, and organization-provisioned accounts with unified task management capabilities.
+This plugin provides one skill that enables Claude Code and Codex agents to manage to-do items across multiple Google accounts through the Google Tasks API. It supports personal Gmail accounts, Google Workspace accounts, and organization-provisioned accounts with unified task management capabilities.
 
 Key features include:
 - Multi-account support with unified views
@@ -17,104 +17,98 @@ Key features include:
 
 ## Installation
 
-Install from the Agent Kit marketplace:
+Claude Code:
 
 ```bash
 /plugin install gtasks-todo-manager@leefowlercu-agent-kit
 ```
 
+Codex from the repository root:
+
+```bash
+codex plugin marketplace add .
+```
+
+Then restart Codex and install `gtasks-todo-manager` from the `Lee Fowler Agent Kit` marketplace in the plugin directory.
+
 ## Usage
 
-After installation, use the slash commands to manage your Google Tasks. On first use, run `/gtasks-setup` to configure OAuth and authenticate your accounts.
+After installation, invoke the `gtasks-todo-manager` skill to manage your Google Tasks. On first use, ask it to set up OAuth and authenticate your accounts.
 
 ### Quick Start
 
 ```
 # First-time setup (OAuth credentials + account authentication)
-/gtasks-setup
+Use gtasks-todo-manager to set up Google Tasks.
 
 # Get suggested tasks to focus on today
-/gtasks-todo-today
+Use gtasks-todo-manager to suggest tasks to focus on today.
 
 # View your tasks
-/gtasks-todo-list
+Use gtasks-todo-manager to list my tasks.
 
 # Add a task
-/gtasks-todo-add Buy groceries due Friday
+Use gtasks-todo-manager to add "Buy groceries" due Friday.
 
 # Complete a task
-/gtasks-todo-complete Buy groceries
+Use gtasks-todo-manager to complete "Buy groceries".
 
 # See all your task lists
-/gtasks-lists
+Use gtasks-todo-manager to show my task lists.
 
 # Get a summary across all accounts
-/gtasks-summary
+Use gtasks-todo-manager to summarize my tasks.
 ```
 
 ## Included Components
 
-### Commands
+### Skills
 
-Commands support natural language input - no need for structured flags.
+Skills support natural language input - no need for structured flags.
 
-| Command | Description |
+| Component | Description |
 |---------|-------------|
-| `/gtasks-setup` | Set up OAuth credentials and authenticate accounts |
-| `/gtasks-todo-add` | Add a new task to Google Tasks |
-| `/gtasks-todo-complete` | Mark a task as completed |
-| `/gtasks-todo-list` | List tasks from a list or all accounts |
-| `/gtasks-todo-today` | Suggest prioritized tasks to focus on today |
-| `/gtasks-lists` | List and manage task lists |
-| `/gtasks-summary` | Show summary statistics across all accounts |
-| `/gtasks-project-init` | Initialize a project task list for the current git repository |
-| `/gtasks-project-status` | Show project association for current directory |
+| [gtasks-todo-manager](skills/gtasks-todo-manager/) | Skill for setup, task operations, task-list operations, summaries, daily suggestions, and project task-list workflows |
+| [Workflow references](skills/gtasks-todo-manager/references/workflows/) | Internal reference material for common task, list, summary, setup, and project workflows |
 
 **Example invocations:**
 
 ```
-/gtasks-todo-add Buy groceries for the party on Friday
-/gtasks-todo-add Submit quarterly report to my work account, due next Monday
-/gtasks-todo-complete the dentist appointment
-/gtasks-todo-list overdue tasks in my work account
-/gtasks-todo-list everything due this week
-/gtasks-todo-today
-/gtasks-todo-today 5 tasks from my work account
-/gtasks-lists create a new list called Projects
-/gtasks-lists rename Shopping to Groceries
+Use gtasks-todo-manager to add "Buy groceries for the party" due Friday.
+Use gtasks-todo-manager to add "Submit quarterly report" to my work account, due next Monday.
+Use gtasks-todo-manager to complete the dentist appointment.
+Use gtasks-todo-manager to list overdue tasks in my work account.
+Use gtasks-todo-manager to list everything due this week.
+Use gtasks-todo-manager to suggest 5 tasks from my work account.
+Use gtasks-todo-manager to create a new list called Projects.
+Use gtasks-todo-manager to rename Shopping to Groceries.
 ```
 
 **Project-aware commands:**
 
 ```
 # Initialize a project list for the current git repo
-/gtasks-project-init
-/gtasks-project-init called backend-api in my work account
+Use gtasks-todo-manager to initialize a project list for this git repo.
+Use gtasks-todo-manager to initialize a project list called backend-api in my work account.
 
 # Check project status
-/gtasks-project-status
+Use gtasks-todo-manager to show this project's task-list status.
 
 # Add tasks to the project list
-/gtasks-todo-add Fix auth bug to the project list
-/gtasks-todo-add Update docs for this project due Friday
+Use gtasks-todo-manager to add "Fix auth bug" to the project list.
+Use gtasks-todo-manager to add "Update docs for this project" due Friday.
 
 # List project tasks
-/gtasks-todo-list project tasks
-/gtasks-todo-list pending project tasks
+Use gtasks-todo-manager to list project tasks.
+Use gtasks-todo-manager to list pending project tasks.
 
 # Get project suggestions
-/gtasks-todo-today for this project
+Use gtasks-todo-manager to suggest tasks for this project today.
 ```
-
-### Skills
-
-| Skill | Description |
-|-------|-------------|
-| [gtasks-todo-manager](skills/gtasks-todo-manager/) | Manages to-do items across multiple Google accounts using OAuth 2.0 authentication |
 
 ## Requirements
 
-- Claude Code with plugin support
+- Claude Code or Codex with plugin support
 - Node.js 18+ (required by Claude Code)
 - Google Cloud project with Tasks API enabled
 - OAuth 2.0 credentials (Desktop app type)
@@ -122,7 +116,7 @@ Commands support natural language input - no need for structured flags.
 
 ## First-Run Setup
 
-Run `/gtasks-setup` and the skill will guide you through:
+Ask `gtasks-todo-manager` to set up Google Tasks and it will guide you through:
 
 1. Creating a Google Cloud project at console.cloud.google.com
 2. Enabling the Google Tasks API
@@ -141,3 +135,4 @@ Run `/gtasks-setup` and the skill will guide you through:
 - [Aggregation & Summary](skills/gtasks-todo-manager/references/operations/aggregate.md)
 - [Task Suggestions](skills/gtasks-todo-manager/references/operations/suggestions.md)
 - [Config Migrations](skills/gtasks-todo-manager/references/operations/migrations.md)
+- [Workflow References](skills/gtasks-todo-manager/references/workflows/)

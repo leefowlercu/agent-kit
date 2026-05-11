@@ -26,7 +26,7 @@ import { projectsCommand } from './commands/projects.js';
 program
   .name('gtasks')
   .description('Google Tasks CLI for multi-account task management')
-  .version('0.1.0');
+  .version('0.5.0');
 
 // Register commands
 program.addCommand(authCommand);

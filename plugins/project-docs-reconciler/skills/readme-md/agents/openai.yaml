@@ -1,0 +1,4 @@
+interface:
+  display_name: "README.md Reconciler"
+  short_description: "Initialize or update README.md"
+  default_prompt: "Use $readme-md to reconcile this project README.md."
