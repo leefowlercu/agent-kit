@@ -1,0 +1,37 @@
+{
+  "name": "spec-governed-development",
+  "version": "0.2.0",
+  "description": "Spec-governed project documentation and implementation workflows for intent-driven development",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/spec-governed-development",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": [
+    "specs",
+    "prd",
+    "adr",
+    "bdd",
+    "tdd",
+    "implementation",
+    "spec-governed-development"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Spec-Governed Development",
+    "shortDescription": "Reconcile specs and implement from them",
+    "longDescription": "Use Spec-Governed Development to turn requested behavior or architecture changes into conventional project specs, then implement from those specs with traceable tests. The project-specs-reconciliation skill creates or updates PRDs and ADRs with implementation-ready handoffs, and project-specs-implementation consumes those handoffs for the spec-to-test-to-code workflow.",
+    "developerName": "Lee Fowler",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/spec-governed-development",
+    "defaultPrompt": [
+      "Use $project-specs-reconciliation to create or update the governing PRD or ADR, then use $project-specs-implementation to implement from the handoff."
+    ]
+  }
+}

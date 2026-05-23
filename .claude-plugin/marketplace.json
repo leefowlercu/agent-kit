@@ -47,6 +47,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/gtasks-todo-manager"
+    },
+    {
+      "name": "spec-governed-development",
+      "description": "Spec-governed project documentation and implementation workflows for intent-driven development",
+      "version": "0.2.0",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["specs", "prd", "adr", "bdd", "tdd", "implementation", "spec-governed-development"],
+      "category": "productivity",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/spec-governed-development"
     }
   ]
 }

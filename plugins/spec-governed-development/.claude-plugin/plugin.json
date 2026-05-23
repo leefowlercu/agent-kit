@@ -1,0 +1,10 @@
+{
+  "name": "spec-governed-development",
+  "version": "0.2.0",
+  "description": "Spec-governed project documentation and implementation workflows for intent-driven development",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "license": "MIT",
+  "keywords": ["specs", "prd", "adr", "bdd", "tdd", "implementation", "spec-governed-development"]
+}

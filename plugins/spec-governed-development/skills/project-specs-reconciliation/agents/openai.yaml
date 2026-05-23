@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Specs Reconciliation"
+  short_description: "Create or update PRDs and ADRs"
+  default_prompt: "Use $project-specs-reconciliation to create or update the PRD or ADR for this project change before implementation."

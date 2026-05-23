@@ -55,6 +55,7 @@ Codex reads the repo marketplace from `.agents/plugins/marketplace.json`. Restar
 | [op-secrets-manager](plugins/op-secrets-manager) | Skills for interacting with 1Password through the op CLI | 0.2.0 |
 | [gtasks-todo-manager](plugins/gtasks-todo-manager) | Manages to-dos across multiple Google accounts using the Google Tasks API | 0.5.0 |
 | [goalcraft](plugins/goalcraft) | Codex-only skill for crafting durable `/goal` objectives with validation loops | 0.1.0 |
+| [spec-governed-development](plugins/spec-governed-development) | Spec-governed PRD, ADR, and implementation workflows | 0.2.0 |
 
 ## Repository Structure
 
@@ -120,13 +121,31 @@ agent-kit/
 │   │           │   ├── api/                # Google Tasks API reference
 │   │           │   └── schemas/            # JSON schemas
 │   │           └── scripts/                # CLI and automation scripts
-│   └── goalcraft/
+│   ├── goalcraft/
+│   │   ├── .codex-plugin/
+│   │   │   └── plugin.json                 # Codex plugin metadata
+│   │   ├── README.md                       # Plugin documentation
+│   │   └── skills/
+│   │       └── goalcraft/
+│   │           ├── SKILL.md                # Goal planning workflow
+│   │           └── agents/
+│   │               └── openai.yaml         # Skill UI metadata
+│   └── spec-governed-development/
+│       ├── .claude-plugin/
+│       │   └── plugin.json                 # Plugin metadata
 │       ├── .codex-plugin/
 │       │   └── plugin.json                 # Codex plugin metadata
 │       ├── README.md                       # Plugin documentation
 │       └── skills/
-│           └── goalcraft/
-│               ├── SKILL.md                # Goal planning workflow
+│           ├── project-specs-reconciliation/
+│           │   ├── SKILL.md                # PRD and ADR reconciliation workflow
+│           │   ├── agents/
+│           │   │   └── openai.yaml         # Skill UI metadata
+│           │   └── assets/
+│           │       ├── adr-template.md     # ADR template
+│           │       └── prd-template.md     # PRD template
+│           └── project-specs-implementation/
+│               ├── SKILL.md                # Spec-to-test-to-code workflow
 │               └── agents/
 │                   └── openai.yaml         # Skill UI metadata
 └── LICENSE

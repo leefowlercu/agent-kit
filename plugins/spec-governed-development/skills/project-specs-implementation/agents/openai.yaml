@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Specs Implementation"
+  short_description: "Implement from reconciled project specs"
+  default_prompt: "Use $project-specs-implementation to implement this change from the reconciled PRD, ADR, and implementation handoff."
