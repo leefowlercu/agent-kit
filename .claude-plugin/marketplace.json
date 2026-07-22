@@ -60,6 +60,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/spec-governed-development"
+    },
+    {
+      "name": "bro",
+      "description": "Restates the previous assistant message in plain, concise language",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["plain-language", "rewrite", "clarity", "concise", "productivity"],
+      "category": "productivity",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/bro"
     }
   ]
 }

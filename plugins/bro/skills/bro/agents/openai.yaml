@@ -1,0 +1,7 @@
+interface:
+  display_name: "Bro"
+  short_description: "Rewrite the last response in plain language"
+  default_prompt: "Use $bro to rewrite your last message in plain, concise language."
+
+policy:
+  allow_implicit_invocation: false

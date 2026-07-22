@@ -1,0 +1,12 @@
+{
+  "name": "bro",
+  "version": "0.1.0",
+  "description": "Restates the previous assistant message in plain, concise language",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/bro",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": ["plain-language", "rewrite", "clarity", "concise", "productivity"]
+}

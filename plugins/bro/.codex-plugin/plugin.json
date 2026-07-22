@@ -1,0 +1,25 @@
+{
+  "name": "bro",
+  "version": "0.1.0",
+  "description": "Restates the previous assistant message in plain, concise language",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/bro",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": ["plain-language", "rewrite", "clarity", "concise", "productivity"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Bro",
+    "shortDescription": "Rewrite the last response in plain language",
+    "longDescription": "Use Bro to restate the assistant's previous message in plain, concise language while preserving its meaning and important details.",
+    "developerName": "Lee Fowler",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/bro",
+    "defaultPrompt": [
+      "Use $bro to rewrite your last message in plain, concise language."
+    ]
+  }
+}

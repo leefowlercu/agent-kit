@@ -56,6 +56,7 @@ Codex reads the repo marketplace from `.agents/plugins/marketplace.json`. Restar
 | [gtasks-todo-manager](plugins/gtasks-todo-manager) | Manages to-dos across multiple Google accounts using the Google Tasks API | 0.5.0 |
 | [goalcraft](plugins/goalcraft) | Codex-only skill for crafting durable `/goal` objectives with validation loops | 0.1.0 |
 | [spec-governed-development](plugins/spec-governed-development) | Spec-governed PRD, ADR, and implementation workflows | 0.2.0 |
+| [bro](plugins/bro) | Restates the previous assistant response in plain, concise language | 0.1.0 |
 
 ## Repository Structure
 
@@ -130,24 +131,35 @@ agent-kit/
 │   │           ├── SKILL.md                # Goal planning workflow
 │   │           └── agents/
 │   │               └── openai.yaml         # Skill UI metadata
-│   └── spec-governed-development/
+│   ├── spec-governed-development/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json                 # Plugin metadata
+│   │   ├── .codex-plugin/
+│   │   │   └── plugin.json                 # Codex plugin metadata
+│   │   ├── README.md                       # Plugin documentation
+│   │   └── skills/
+│   │       ├── project-specs-reconciliation/
+│   │       │   ├── SKILL.md                # PRD and ADR reconciliation workflow
+│   │       │   ├── agents/
+│   │       │   │   └── openai.yaml         # Skill UI metadata
+│   │       │   └── assets/
+│   │       │       ├── adr-template.md     # ADR template
+│   │       │       └── prd-template.md     # PRD template
+│   │       └── project-specs-implementation/
+│   │           ├── SKILL.md                # Spec-to-test-to-code workflow
+│   │           └── agents/
+│   │               └── openai.yaml         # Skill UI metadata
+│   └── bro/
 │       ├── .claude-plugin/
-│       │   └── plugin.json                 # Plugin metadata
+│       │   └── plugin.json                 # Claude Code plugin metadata
 │       ├── .codex-plugin/
 │       │   └── plugin.json                 # Codex plugin metadata
 │       ├── README.md                       # Plugin documentation
 │       └── skills/
-│           ├── project-specs-reconciliation/
-│           │   ├── SKILL.md                # PRD and ADR reconciliation workflow
-│           │   ├── agents/
-│           │   │   └── openai.yaml         # Skill UI metadata
-│           │   └── assets/
-│           │       ├── adr-template.md     # ADR template
-│           │       └── prd-template.md     # PRD template
-│           └── project-specs-implementation/
-│               ├── SKILL.md                # Spec-to-test-to-code workflow
+│           └── bro/
+│               ├── SKILL.md                # Shared plain-language rewrite instructions
 │               └── agents/
-│                   └── openai.yaml         # Skill UI metadata
+│                   └── openai.yaml         # Codex manual-invocation policy
 └── LICENSE
 ```
 
