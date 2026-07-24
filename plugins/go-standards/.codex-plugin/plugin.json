@@ -1,0 +1,37 @@
+{
+  "name": "go-standards",
+  "version": "0.1.2",
+  "description": "Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/go-standards",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": [
+    "go",
+    "golang",
+    "standards",
+    "testing",
+    "cobra",
+    "viper",
+    "code-review"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Go Standards",
+    "shortDescription": "Stdlib-grounded Go engineering standards",
+    "longDescription": "Use Go Standards to implement, review, refactor, diagnose, and test Go code with standard-library-grade API, documentation, error-handling, compatibility, concurrency, and testing discipline. Targeted references provide self-contained examples and cover repository layout, Cobra commands, and typed Viper configuration.",
+    "developerName": "Lee Fowler",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/go-standards",
+    "defaultPrompt": [
+      "Use $go-standards to implement or review this Go change with standard-library-grade API, test, and error-handling discipline."
+    ]
+  }
+}

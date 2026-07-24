@@ -1,5 +1,4 @@
 {
-  "$schema": "https://code.claude.com/schemas/marketplace.json",
   "name": "leefowlercu-agent-kit",
   "owner": {
     "name": "Lee Fowler"
@@ -73,6 +72,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/bro"
+    },
+    {
+      "name": "go-standards",
+      "description": "Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing",
+      "version": "0.1.2",
+      "author": {
+        "name": "Lee Fowler"
+      },
+      "keywords": ["go", "golang", "standards", "testing", "cobra", "viper", "code-review"],
+      "category": "development",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/go-standards"
     }
   ]
 }

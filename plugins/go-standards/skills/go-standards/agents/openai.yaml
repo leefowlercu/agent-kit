@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Standards"
+  short_description: "Stdlib-grounded Go engineering standards"
+  default_prompt: "Use $go-standards to implement or review this Go change with standard-library-grade API, test, and error-handling discipline."

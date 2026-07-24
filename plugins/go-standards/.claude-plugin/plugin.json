@@ -1,0 +1,20 @@
+{
+  "name": "go-standards",
+  "version": "0.1.2",
+  "description": "Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing",
+  "author": {
+    "name": "Lee Fowler"
+  },
+  "homepage": "https://github.com/leefowlercu/agent-kit/tree/master/plugins/go-standards",
+  "repository": "https://github.com/leefowlercu/agent-kit",
+  "license": "MIT",
+  "keywords": [
+    "go",
+    "golang",
+    "standards",
+    "testing",
+    "cobra",
+    "viper",
+    "code-review"
+  ]
+}

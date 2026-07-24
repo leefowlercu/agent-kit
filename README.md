@@ -57,6 +57,7 @@ Codex reads the repo marketplace from `.agents/plugins/marketplace.json`. Restar
 | [goalcraft](plugins/goalcraft) | Codex-only skill for crafting durable `/goal` objectives with validation loops | 0.1.0 |
 | [spec-governed-development](plugins/spec-governed-development) | Spec-governed PRD, ADR, and implementation workflows | 0.2.0 |
 | [bro](plugins/bro) | Restates the previous assistant response in plain, concise language | 0.1.0 |
+| [go-standards](plugins/go-standards) | Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing | 0.1.2 |
 
 ## Repository Structure
 
@@ -149,17 +150,29 @@ agent-kit/
 │   │           ├── SKILL.md                # Spec-to-test-to-code workflow
 │   │           └── agents/
 │   │               └── openai.yaml         # Skill UI metadata
-│   └── bro/
+│   ├── bro/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json                 # Claude Code plugin metadata
+│   │   ├── .codex-plugin/
+│   │   │   └── plugin.json                 # Codex plugin metadata
+│   │   ├── README.md                       # Plugin documentation
+│   │   └── skills/
+│   │       └── bro/
+│   │           ├── SKILL.md                # Shared plain-language rewrite instructions
+│   │           └── agents/
+│   │               └── openai.yaml         # Codex manual-invocation policy
+│   └── go-standards/
 │       ├── .claude-plugin/
 │       │   └── plugin.json                 # Claude Code plugin metadata
 │       ├── .codex-plugin/
 │       │   └── plugin.json                 # Codex plugin metadata
 │       ├── README.md                       # Plugin documentation
 │       └── skills/
-│           └── bro/
-│               ├── SKILL.md                # Shared plain-language rewrite instructions
-│               └── agents/
-│                   └── openai.yaml         # Codex manual-invocation policy
+│           └── go-standards/
+│               ├── SKILL.md                # Go engineering workflow
+│               ├── agents/
+│               │   └── openai.yaml         # Codex skill UI metadata
+│               └── references/             # Go, Cobra, and Viper standards
 └── LICENSE
 ```
 
