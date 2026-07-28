@@ -4,7 +4,7 @@ Use this reference when designing, implementing, or reviewing Go code. It distil
 
 ## Evidence Shape
 
-These rules were distilled from recurring patterns in ordinary public standard-library packages, not from local file paths that a skill client must have. Load `stdlib-examples.md` when concrete examples would help apply the patterns.
+These rules were distilled from recurring patterns in the Go public standard-library packages. Load `stdlib-examples.md` when concrete examples would help apply the patterns.
 
 The examples cover these evidence categories:
 
