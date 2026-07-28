@@ -1,6 +1,6 @@
 # Standard Library Style Examples
 
-Use these examples when applying `stdlib-patterns.md`. They are self-contained examples written for this skill, not references to files on the client host.
+Use these examples when applying `stdlib-patterns.md`.
 
 ## Package Contract And Context Rules
 
