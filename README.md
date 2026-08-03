@@ -57,7 +57,7 @@ Codex reads the repo marketplace from `.agents/plugins/marketplace.json`. Restar
 | [goalcraft](plugins/goalcraft) | Codex-only skill for crafting durable `/goal` objectives with validation loops | 0.1.0 |
 | [spec-governed-development](plugins/spec-governed-development) | Spec-governed PRD, ADR, and implementation workflows | 0.2.0 |
 | [bro](plugins/bro) | Restates the previous assistant response in plain, concise language | 0.1.0 |
-| [go-standards](plugins/go-standards) | Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing | 0.1.2 |
+| [go-standards](plugins/go-standards) | Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing | 0.1.3 |
 
 ## Repository Structure
 

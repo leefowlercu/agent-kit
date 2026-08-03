@@ -76,7 +76,7 @@
     {
       "name": "go-standards",
       "description": "Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "author": {
         "name": "Lee Fowler"
       },

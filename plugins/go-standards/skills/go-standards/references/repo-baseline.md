@@ -18,6 +18,8 @@ Use this reference when creating a new Go module, changing package layout, addin
 - Use `log/slog` for logging.
 - Prefer `any` over `interface{}` where possible.
 - Keep helpers unexported unless they are part of the intended API.
+- Add package-level examples beyond required command examples when they improve onboarding.
+- Add helper abstractions only when they reduce duplication without obscuring command flow.
 
 ## Unit Tests
 
@@ -29,7 +31,7 @@ Use this reference when creating a new Go module, changing package layout, addin
 
 ## Acceptance Tests
 
-- Use `godog` for Gherkin-based acceptance tests when the repo has acceptance scenarios or the user asks for acceptance coverage.
+- Use `godog` for Gherkin-based acceptance tests.
 - Treat Gherkin feature files as the behavioral source of truth.
 - Update acceptance scenarios first when behavior changes, then implement code to satisfy the updated behavior.
 - Write acceptance tests from external behavior and observable system outcomes, not internal implementation details.

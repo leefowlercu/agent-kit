@@ -2,12 +2,12 @@
 
 Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing.
 
-**Version**: 0.1.2
+**Version**: 0.1.3
 **License**: MIT
 
 ## Overview
 
-This plugin packages the `go-standards` skill for both Claude Code and Codex. It guides Go work toward small and compatible APIs, explicit contracts, deterministic tests, contextual errors, documented concurrency behavior, and ordinary standard-library patterns, with self-contained examples and focused references for repository layout, Cobra, and Viper.
+This plugin packages the `go-standards` skill for both Claude Code and Codex. It guides Go work toward small and compatible APIs, explicit contracts, deterministic tests, contextual errors, documented concurrency behavior, and ordinary standard-library patterns, with self-contained examples and comprehensive references for repository layout, Cobra, and Viper.
 
 ## Installation
 
