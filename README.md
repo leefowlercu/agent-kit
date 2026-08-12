@@ -58,6 +58,7 @@ Codex reads the repo marketplace from `.agents/plugins/marketplace.json`. Restar
 | [spec-governed-development](plugins/spec-governed-development) | Spec-governed PRD, ADR, and implementation workflows | 0.2.0 |
 | [bro](plugins/bro) | Restates the previous assistant response in plain, concise language | 0.1.0 |
 | [go-standards](plugins/go-standards) | Stdlib-grounded Go engineering standards for implementation, review, refactoring, and testing | 0.1.3 |
+| [hermes-tweet](plugins/hermes-tweet) | Guides read-first X/Twitter research and approval-gated Hermes Agent actions | 0.1.11 |
 
 ## Repository Structure
 
@@ -161,18 +162,27 @@ agent-kit/
 │   │           ├── SKILL.md                # Shared plain-language rewrite instructions
 │   │           └── agents/
 │   │               └── openai.yaml         # Codex manual-invocation policy
-│   └── go-standards/
+│   ├── go-standards/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json                 # Claude Code plugin metadata
+│   │   ├── .codex-plugin/
+│   │   │   └── plugin.json                 # Codex plugin metadata
+│   │   ├── README.md                       # Plugin documentation
+│   │   └── skills/
+│   │       └── go-standards/
+│   │           ├── SKILL.md                # Go engineering workflow
+│   │           ├── agents/
+│   │           │   └── openai.yaml         # Codex skill UI metadata
+│   │           └── references/             # Go, Cobra, and Viper standards
+│   └── hermes-tweet/
 │       ├── .claude-plugin/
 │       │   └── plugin.json                 # Claude Code plugin metadata
 │       ├── .codex-plugin/
 │       │   └── plugin.json                 # Codex plugin metadata
 │       ├── README.md                       # Plugin documentation
 │       └── skills/
-│           └── go-standards/
-│               ├── SKILL.md                # Go engineering workflow
-│               ├── agents/
-│               │   └── openai.yaml         # Codex skill UI metadata
-│               └── references/             # Go, Cobra, and Viper standards
+│           └── hermes-tweet/
+│               └── SKILL.md                # Hermes Agent X/Twitter workflow guidance
 └── LICENSE
 ```
 

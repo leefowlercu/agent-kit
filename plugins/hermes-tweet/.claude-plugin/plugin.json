@@ -1,0 +1,15 @@
+{
+  "name": "hermes-tweet",
+  "version": "0.1.11",
+  "description": "Guide read-first X/Twitter research and approval-gated Hermes Agent actions",
+  "author": {
+    "name": "Xquik"
+  },
+  "license": "MIT",
+  "keywords": [
+    "hermes-agent",
+    "twitter",
+    "social-research",
+    "workflow"
+  ]
+}

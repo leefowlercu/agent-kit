@@ -85,6 +85,19 @@
       "license": "MIT",
       "strict": false,
       "source": "./plugins/go-standards"
+    },
+    {
+      "name": "hermes-tweet",
+      "description": "Guide read-first X/Twitter research and approval-gated Hermes Agent actions",
+      "version": "0.1.11",
+      "author": {
+        "name": "Xquik"
+      },
+      "keywords": ["hermes-agent", "twitter", "social-research", "workflow"],
+      "category": "productivity",
+      "license": "MIT",
+      "strict": false,
+      "source": "./plugins/hermes-tweet"
     }
   ]
 }
